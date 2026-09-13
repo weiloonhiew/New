@@ -65,7 +65,8 @@
     const allChip = makeChip('all', 'All emotions', null);
     chipsWrap.appendChild(allChip);
     CATEGORIES.forEach(cat => {
-      chipsWrap.appendChild(makeChip(cat.id, `${cat.number}. ${cat.short}`, cat.color));
+      const label = cat.number ? `${cat.number}. ${cat.short}` : cat.short;
+      chipsWrap.appendChild(makeChip(cat.id, label, cat.color));
     });
   }
 
@@ -119,8 +120,9 @@
     const panel = document.querySelector('.detail-panel');
     panel.style.setProperty('--card-color', cat.color);
 
+    const catLabel = cat.number ? `Category ${cat.number} · ${cat.title}` : cat.title;
     detailContent.innerHTML = `
-      <div class="detail-cat"><span class="swatch"></span>Category ${cat.number} · ${cat.title}</div>
+      <div class="detail-cat"><span class="swatch"></span>${catLabel}</div>
       <h2 id="detail-name">${e.name}</h2>
       <p class="detail-def">${e.definition}</p>
 
