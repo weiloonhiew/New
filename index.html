@@ -23,6 +23,7 @@
       <nav class="mode-tabs" role="tablist" aria-label="View mode">
         <button class="tab-btn active" data-mode="browse" role="tab" aria-selected="true">Browse the Atlas</button>
         <button class="tab-btn" data-mode="identify" role="tab" aria-selected="false">Identify an Emotion</button>
+        <button class="tab-btn" data-mode="pathways" role="tab" aria-selected="false">Coaching Pathways</button>
       </nav>
     </div>
   </header>
@@ -48,6 +49,16 @@
       </div>
       <div id="identify-results" class="grid"></div>
       <p id="identify-empty" class="empty-state" hidden>No matches yet — try a different word or a shorter phrase.</p>
+    </section>
+
+    <!-- PATHWAYS MODE -->
+    <section id="pathways-mode" class="mode-panel" hidden>
+      <div class="pathways-intro">
+        <h2>Moving Up the Mood Ladder</h2>
+        <p>From <em>Ontological Coaching</em>: a practical guide to shifting a client from a closed relationship with the past and with possibility, toward an open one. Moods aren't fixed traits — a client can move up or down this ladder within a single conversation — but this is the general direction the coaching moves them.</p>
+        <div class="ladder-diagram" id="ladder-diagram" aria-label="The mood ladder, from Resentment to Peace"></div>
+      </div>
+      <div id="pathways-list" class="pathways-list"></div>
     </section>
   </main>
 

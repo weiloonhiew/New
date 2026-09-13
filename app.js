@@ -1,5 +1,7 @@
 (function () {
   const catById = Object.fromEntries(CATEGORIES.map(c => [c.id, c]));
+  const emotionById = Object.fromEntries(EMOTIONS.map(e => [e.id, e]));
+  const ontologicalCat = catById['ontological'];
 
   const grid = document.getElementById('emotion-grid');
   const chipsWrap = document.getElementById('category-chips');
@@ -157,6 +159,44 @@
     document.body.style.overflow = '';
   }
 
+  // ---- Transition (mood ladder) detail panel ----
+  function openTransitionDetail(t) {
+    const fromEmotion = emotionById[t.from];
+    const toEmotion = emotionById[t.to];
+    const color = ontologicalCat.color;
+    detailContent.style.setProperty('--card-color', color);
+    const panel = document.querySelector('.detail-panel');
+    panel.style.setProperty('--card-color', color);
+
+    detailContent.innerHTML = `
+      <div class="detail-cat"><span class="swatch"></span>${ontologicalCat.title}</div>
+      <h2 id="detail-name">${fromEmotion.name} <span class="arrow-sep" aria-hidden="true">→</span> ${toEmotion.name}</h2>
+      <p class="detail-def">${t.summary}</p>
+
+      <div class="detail-block">
+        <h4>What Shifts</h4>
+        <p class="plain">${t.whatShifts}</p>
+      </div>
+
+      <div class="detail-block">
+        <h4>Signs the Client Is Ready</h4>
+        <ul>${t.readySigns.map(p => `<li>${p}</li>`).join('')}</ul>
+      </div>
+
+      <div class="detail-block">
+        <h4>Coach Moves</h4>
+        <ul>${t.coachMoves.map(p => `<li>${p}</li>`).join('')}</ul>
+      </div>
+
+      <div class="detail-block">
+        <h4>Sample Coaching Language</h4>
+        <ul>${t.sampleLanguage.map(p => `<li>${p}</li>`).join('')}</ul>
+      </div>
+    `;
+    overlay.hidden = false;
+    document.body.style.overflow = 'hidden';
+  }
+
   detailClose.addEventListener('click', closeDetail);
   overlay.addEventListener('click', (ev) => { if (ev.target === overlay) closeDetail(); });
   document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape' && !overlay.hidden) closeDetail(); });
@@ -202,10 +242,54 @@
 
   identifyInput.addEventListener('input', runIdentify);
 
+  // ---- Pathways mode (the Mood Ladder) ----
+  const ladderDiagram = document.getElementById('ladder-diagram');
+  const pathwaysList = document.getElementById('pathways-list');
+
+  function renderLadder() {
+    if (!ladderDiagram) return;
+    const moodIds = ['resentment-mood', 'resignation-mood', 'acceptance-mood', 'peace-mood'];
+    moodIds.forEach((id, i) => {
+      const mood = emotionById[id];
+      const step = document.createElement('span');
+      step.className = 'ladder-step';
+      step.style.setProperty('--step-color', ontologicalCat.color);
+      step.style.setProperty('--step-opacity', 0.45 + (i * 0.55) / (moodIds.length - 1));
+      step.textContent = mood.name;
+      ladderDiagram.appendChild(step);
+      if (i < moodIds.length - 1) {
+        const arrow = document.createElement('span');
+        arrow.className = 'ladder-arrow';
+        arrow.setAttribute('aria-hidden', 'true');
+        arrow.textContent = '→';
+        ladderDiagram.appendChild(arrow);
+      }
+    });
+  }
+
+  function renderPathways() {
+    if (!pathwaysList) return;
+    MOOD_LADDER.forEach(t => {
+      const fromEmotion = emotionById[t.from];
+      const toEmotion = emotionById[t.to];
+      const card = document.createElement('button');
+      card.className = 'card pathway-card';
+      card.style.setProperty('--card-color', ontologicalCat.color);
+      card.innerHTML = `
+        <span class="card-cat"><span class="swatch"></span>Mood Ladder</span>
+        <h3>${fromEmotion.name} <span class="arrow-sep" aria-hidden="true">→</span> ${toEmotion.name}</h3>
+        <p>${t.summary}</p>
+      `;
+      card.addEventListener('click', () => openTransitionDetail(t));
+      pathwaysList.appendChild(card);
+    });
+  }
+
   // ---- Mode tabs ----
   const tabBtns = document.querySelectorAll('.tab-btn');
   const browsePanel = document.getElementById('browse-mode');
   const identifyPanel = document.getElementById('identify-mode');
+  const pathwaysPanel = document.getElementById('pathways-mode');
 
   tabBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -215,6 +299,7 @@
       const mode = btn.dataset.mode;
       browsePanel.hidden = mode !== 'browse';
       identifyPanel.hidden = mode !== 'identify';
+      if (pathwaysPanel) pathwaysPanel.hidden = mode !== 'pathways';
     });
   });
 
@@ -222,4 +307,6 @@
   renderChips();
   renderGrid();
   renderExamples();
+  renderLadder();
+  renderPathways();
 })();

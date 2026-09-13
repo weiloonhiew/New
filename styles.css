@@ -261,6 +261,61 @@ main {
   font-size: 0.92rem;
 }
 
+.pathways-intro {
+  max-width: 72ch;
+  margin-bottom: 24px;
+}
+
+.pathways-intro h2 {
+  margin: 0 0 6px;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.pathways-intro p {
+  color: var(--text-muted);
+  margin: 0 0 18px;
+  font-size: 0.92rem;
+}
+
+.ladder-diagram {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.ladder-step {
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: #fff;
+  background: color-mix(in srgb, var(--step-color, var(--accent)) calc(var(--step-opacity, 1) * 100%), var(--bg-card) calc((1 - var(--step-opacity, 1)) * 100%));
+  white-space: nowrap;
+}
+
+.ladder-arrow {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+}
+
+.pathways-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+.pathway-card h3 {
+  font-size: 1.1rem;
+}
+
+.arrow-sep {
+  color: var(--text-muted);
+  font-weight: 400;
+  padding: 0 2px;
+}
+
 .search-row input {
   width: 100%;
   padding: 12px 14px;

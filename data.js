@@ -793,3 +793,82 @@ const EMOTIONS = [
     questions:['What would you pursue here if you were fully at peace with how things turned out?','Where in your life do you already operate from this kind of groundedness — what makes that possible?','How is peace here different from resignation — what live possibility are you still holding open?']
   }
 ];
+
+// The Mood Ladder (Ontological Coaching): a practical guide to the three transitions between
+// the four moods above. Moods aren't fixed traits — a client can move up or down this ladder
+// within a single conversation — but this is the general direction coaching moves them: from a
+// closed relationship with the past and with possibility, toward an open one.
+const MOOD_LADDER = [
+  {
+    id: 'resentment-to-resignation',
+    from: 'resentment-mood',
+    to: 'resignation-mood',
+    summary: 'Turning a silent, rehearsed grievance into something nameable — the first step out of a closed loop.',
+    whatShifts: 'In resentment, the client relates to the present through an old, unspoken account: a complaint, expectation, or promise that was never voiced and never closed. Resignation is still a closed mood — the client has stopped believing anything will change — but the charge is gone. Some clients pass through resignation on the way to genuine acceptance; the risk is stalling there, mistaking the quiet for peace.',
+    readySigns: [
+      'Tells the same grievance story repeatedly, with no new detail or movement',
+      'Can describe what was done to them but not what they actually wanted',
+      'Talks about the other person in fixed, totalizing terms ("they always / they never")',
+      'Shows physical charge (tight jaw, clipped tone) whenever the topic surfaces'
+    ],
+    coachMoves: [
+      'Help the client make the unvoiced complaint explicit — what, specifically, was the broken promise or unmet expectation?',
+      'Separate the complaint from a request: turn "they wronged me" into "here is what I wanted and didn’t get"',
+      'Invite a conscious choice about the account — make the request now, let it go, or knowingly leave it open — rather than carrying it passively',
+      'Notice and name the shift when it happens: from charged storytelling to flat, matter-of-fact description'
+    ],
+    sampleLanguage: [
+      '"What did you actually want from them that you never asked for directly?"',
+      '"If you closed this account today, what would ‘closed’ look like?"',
+      '"What would you need to say — even just to yourself — to put this down?"'
+    ]
+  },
+  {
+    id: 'resignation-to-acceptance',
+    from: 'resignation-mood',
+    to: 'acceptance-mood',
+    summary: 'Testing the closed conclusion "nothing can change" — and separating what’s truly fixed from what the client stopped trying.',
+    whatShifts: 'Resignation rests on a private, often unexamined conclusion that no action will change the situation, so the client quietly stops making requests or attempts — sometimes mistaking that stillness for peace. Acceptance is an active reckoning: the client stops arguing with what can’t be changed, while getting clear on what still can. It looks similar from the outside; the difference is whether energy has anywhere to go.',
+    readySigns: [
+      'Describes the situation in permanent, unchangeable terms ("that’s just how it is")',
+      'Shows flat affect rather than active charge — notably calmer than resentment or anger',
+      'Has stopped making any requests, offers, or attempts in this area of life',
+      'Equates "letting go" with "nothing to be done" rather than "here’s what’s left to do"'
+    ],
+    coachMoves: [
+      'Separate fact from interpretation — ask when and how the client concluded that nothing could change; a conclusion has an origin, a fact doesn’t',
+      'Propose one small, low-risk experiment that would actually test whether the conclusion still holds',
+      'Draw a clear line between what genuinely isn’t in the client’s control and what they simply stopped trying to influence',
+      'Normalize that acceptance is not approval — it just stops the fight with a fact, freeing energy for what comes next'
+    ],
+    sampleLanguage: [
+      '"Where did you first conclude that nothing could be done here?"',
+      '"What would you attempt if you believed change were even 10% possible?"',
+      '"What part of this is a fact you’re being asked to work with, versus a story you’re still fighting?"'
+    ]
+  },
+  {
+    id: 'acceptance-to-peace',
+    from: 'acceptance-mood',
+    to: 'peace-mood',
+    summary: 'Moving from "I’ve made peace with what happened" to acting from groundedness rather than urgency.',
+    whatShifts: 'Acceptance settles the account with the past or the unchangeable. Peace goes further: it’s a grounded stance from which the client can pursue new goals without anxiety, urgency, or the need to prove something — action from choice rather than compulsion. The work here is forward-looking, not resolving anything more about what happened.',
+    readySigns: [
+      'Talks about the situation steadily, without needing to relitigate it',
+      'Starts asking "what’s next" instead of returning to what happened',
+      'Shows curiosity about new possibilities rather than seeking outside validation',
+      'Can sit with an open question without rushing to resolve it'
+    ],
+    coachMoves: [
+      'Invite forward-looking design: now that this is settled, what does the client actually want to create?',
+      'Help the client tell the difference between ambition and urgency — is this action coming from groundedness, or from anxiety and the need to prove something?',
+      'Anchor the mood somatically — name what peace actually feels like in the body, so the client can recognize and return to it later',
+      'Treat any slide back into resentment or resignation under stress as information, not failure — moods are dynamic, not a one-time achievement'
+    ],
+    sampleLanguage: [
+      '"What would you pursue here if you were fully at peace with how things turned out?"',
+      '"What’s the difference between wanting this and needing this?"',
+      '"How do you want to recognize this grounded feeling, so you can find your way back to it later?"'
+    ]
+  }
+];
