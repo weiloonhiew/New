@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emotion Atlas for Coaches</title>
+<meta name="description" content="A coaching reference mapping 87 emotions and experiences to their behavioral predispositions, organized into 13 categories inspired by Brené Brown's Atlas of the Heart.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">◈</span>
+        <div>
+          <h1>Emotion Atlas <span class="brand-sub">for Coaches</span></h1>
+          <p class="tagline">87 emotions &amp; experiences, mapped to the predispositions that reveal them — organized into 13 categories inspired by Brené Brown's <em>Atlas of the Heart</em>.</p>
+        </div>
+      </div>
+      <nav class="mode-tabs" role="tablist" aria-label="View mode">
+        <button class="tab-btn active" data-mode="browse" role="tab" aria-selected="true">Browse the Atlas</button>
+        <button class="tab-btn" data-mode="identify" role="tab" aria-selected="false">Identify an Emotion</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- BROWSE MODE -->
+    <section id="browse-mode" class="mode-panel">
+      <div class="toolbar">
+        <div class="chips" id="category-chips" role="list" aria-label="Filter by category"></div>
+      </div>
+      <div class="grid" id="emotion-grid"></div>
+    </section>
+
+    <!-- IDENTIFY MODE -->
+    <section id="identify-mode" class="mode-panel" hidden>
+      <div class="identify-intro">
+        <h2>What are you noticing?</h2>
+        <p>Type what you're observing in a client — a phrase, a behavior, a body cue, a trigger, or an emotion word — to surface likely matches with their full predisposition profile.</p>
+        <div class="search-row">
+          <input type="search" id="identify-input" placeholder="e.g. avoids eye contact, over-apologizes, clenched jaw, can't say no…" autocomplete="off">
+        </div>
+        <div class="example-tags" id="example-tags" aria-label="Try an example"></div>
+      </div>
+      <div id="identify-results" class="grid"></div>
+      <p id="identify-empty" class="empty-state" hidden>No matches yet — try a different word or a shorter phrase.</p>
+    </section>
+  </main>
+
+  <!-- DETAIL PANEL -->
+  <div id="detail-overlay" class="overlay" hidden>
+    <div class="detail-panel" role="dialog" aria-modal="true" aria-labelledby="detail-name">
+      <button class="close-btn" id="detail-close" aria-label="Close">&times;</button>
+      <div id="detail-content"></div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <p>Content and categorization are inspired by the 13-category framework in Brené Brown's <em>Atlas of the Heart</em>; all definitions, predisposition patterns, body cues, and coaching questions here are original material written for coaching use, not text from the book. This tool supports — and does not replace — clinical judgment or licensed mental health care.</p>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
