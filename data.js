@@ -794,11 +794,19 @@ const EMOTIONS = [
   }
 ];
 
-// The Mood Ladder (Ontological Coaching): a practical guide to the three transitions between
-// the four moods above. Moods aren't fixed traits — a client can move up or down this ladder
-// within a single conversation — but this is the general direction coaching moves them: from a
-// closed relationship with the past and with possibility, toward an open one.
-const MOOD_LADDER = [
+// Coaching Pathways: a small library of guides for moving a client from a stuck, closed state
+// to a more resourceful, open one. Each pathway is a short chain of steps between named
+// emotions/moods already defined above; `transitions` gives the practical, step-by-step guide
+// between each consecutive pair. None of these chains are fixed or one-directional in real
+// coaching — a client can move back and forth — but this is the general direction each moves.
+const COACHING_PATHWAYS = [
+  {
+    id: 'mood-ladder',
+    title: 'The Mood Ladder',
+    source: 'Ontological Coaching',
+    intro: 'The foundational ladder from the ontological coaching tradition (Echeverría / Newfield): moving a client from a closed relationship with the past and with possibility, toward an open one.',
+    steps: ['resentment-mood', 'resignation-mood', 'acceptance-mood', 'peace-mood'],
+    transitions: [
   {
     id: 'resentment-to-resignation',
     from: 'resentment-mood',
@@ -869,6 +877,294 @@ const MOOD_LADDER = [
       '"What would you pursue here if you were fully at peace with how things turned out?"',
       '"What’s the difference between wanting this and needing this?"',
       '"How do you want to recognize this grounded feeling, so you can find your way back to it later?"'
+    ]
+  }
+    ]
+  },
+
+  {
+    id: 'shame-to-self-compassion',
+    title: 'From Shame to Self-Compassion',
+    source: 'Atlas of the Heart',
+    intro: 'Brené Brown’s own distinction — shame says "I am bad," guilt says "I did something bad" — is itself a coaching move: guilt is a far more workable, repairable mood than shame, and a natural stepping stone toward self-compassion.',
+    steps: ['shame', 'guilt', 'self-compassion'],
+    transitions: [
+      {
+        id: 'shame-to-guilt',
+        from: 'shame',
+        to: 'guilt',
+        summary: 'Turning "I am bad" into "I did something bad" — the single most useful reframe in shame resilience work.',
+        whatShifts: 'Shame collapses the client’s whole identity into the mistake — "I am flawed and unlovable because of this." Guilt separates the actor from the action: something specific was done that conflicts with a value, and it can be examined, repaired, or learned from. The behavior stays open to change once it’s no longer treated as proof of who someone fundamentally is.',
+        readySigns: [
+          'Uses global, identity-level language about the mistake ("I’m such an idiot," "I’m a bad parent/partner/leader")',
+          'Wants to hide, disappear, or change the subject rather than examine what happened',
+          'Can’t identify a specific action — just a diffuse sense of being wrong or exposed',
+          'Responds to any mention of the event with a flinch or defensiveness rather than curiosity'
+        ],
+        coachMoves: [
+          'Ask for the specific behavior, separate from the verdict on their character — "What did you do, exactly?"',
+          'Reflect language back in guilt terms: "So the behavior was X — not that you are X"',
+          'Normalize the distinction explicitly: shame says "I am bad," guilt says "I did something bad, and I can do something about it"',
+          'Watch for the client’s tone to shift from defeated to focused once the object of concern narrows from self to action'
+        ],
+        sampleLanguage: [
+          '"What specifically happened, separate from what you’re telling yourself it means about you?"',
+          '"If a friend did exactly this, would you call them a bad person — or someone who made a mistake?"',
+          '"What would it look like to hold the behavior accountable without holding your whole identity hostage?"'
+        ]
+      },
+      {
+        id: 'guilt-to-self-compassion',
+        from: 'guilt',
+        to: 'self-compassion',
+        summary: 'Once the mistake is named and, where possible, repaired, self-compassion lets the client actually put it down.',
+        whatShifts: 'Guilt does its job by prompting repair — an apology, an amends, a changed behavior. Once that’s underway (or genuinely unavailable), continuing to punish oneself stops being useful. Self-compassion offers the same understanding to oneself that the client would offer a friend, which research consistently links to faster recovery and better follow-through than self-criticism.',
+        readySigns: [
+          'Has already identified or attempted a repair, but keeps re-litigating the mistake anyway',
+          'Says something close to "I know I should let this go, but…"',
+          'Holds themselves to a harsher standard than they would hold anyone else to',
+          'Shows some relief or lightness when the mistake is named and owned — a sign the guilt has done its job'
+        ],
+        coachMoves: [
+          'Confirm the repair step is real and sufficient before inviting the client to release the guilt — self-compassion isn’t a shortcut past accountability',
+          'Ask the client to respond to themselves the way they’d respond to a friend in the same situation',
+          'Separate "learning the lesson" from "continuing to suffer for it" — one is useful, the other isn’t',
+          'Point out the double standard directly when it shows up, without judgment'
+        ],
+        sampleLanguage: [
+          '"What would you say to a close friend who did this and then tried to make it right?"',
+          '"What has continuing to punish yourself accomplished so far?"',
+          '"Now that you’ve made this right, what would it take to actually let it go?"'
+        ]
+      }
+    ]
+  },
+
+  {
+    id: 'comparison-to-contentment',
+    title: 'From Comparison to Contentment',
+    source: 'Atlas of the Heart',
+    intro: 'Comparison borrows someone else’s yardstick; contentment is a return to the client’s own. Usually a single, direct move once the client can name whose standard they’ve been using.',
+    steps: ['comparison', 'contentment'],
+    transitions: [
+      {
+        id: 'comparison-to-contentment',
+        from: 'comparison',
+        to: 'contentment',
+        summary: 'Trading someone else’s yardstick for a definition of "enough" the client actually chose.',
+        whatShifts: 'In comparison, the client’s sense of worth or progress is set by a constantly shifting external benchmark — a peer, a former self, an idealized image. Contentment doesn’t require the comparison to stop happening; it requires the client to notice it, name whose standard is in play, and consciously return to their own.',
+        readySigns: [
+          'Measures their situation almost entirely against specific named people, not their own stated goals',
+          'Mood visibly tracks with exposure to others’ achievements (social media, updates, milestones)',
+          'Struggles to say what "enough" would look like without referencing someone else',
+          'Discounts their own progress the moment someone else’s comes up'
+        ],
+        coachMoves: [
+          'Name the comparison out loud, non-judgmentally, the moment it appears in the conversation',
+          'Ask the client to define "enough" using only their own criteria, with no other person as the reference point',
+          'Distinguish inspiration from comparison: admiration that motivates versus comparison that depletes',
+          'Invite a practice of naming one piece of their own progress before discussing anyone else’s'
+        ],
+        sampleLanguage: [
+          '"Whose yardstick are you using right now?"',
+          '"What would ‘enough’ look like by your own definition, with no one else in the picture?"',
+          '"What’s one thing you’re proud of that has nothing to do with how it compares to theirs?"'
+        ]
+      }
+    ]
+  },
+
+  {
+    id: 'avoidance-to-vulnerability',
+    title: 'From Avoidance to Vulnerability',
+    source: 'Atlas of the Heart',
+    intro: 'Avoidance protects against a feared outcome by not engaging at all. This pathway helps a client name what they’re protecting and take the smallest real step toward showing up anyway.',
+    steps: ['avoidance', 'vulnerability'],
+    transitions: [
+      {
+        id: 'avoidance-to-vulnerability',
+        from: 'avoidance',
+        to: 'vulnerability',
+        summary: 'Naming what’s being protected, so the client can choose to engage instead of steering around it.',
+        whatShifts: 'Avoidance keeps a person safe from a feared outcome by not engaging with the task, conversation, or feeling at all — at the cost of the thing they actually want. Vulnerability is the deliberate choice to stay in the room: to have the conversation, ask the question, or make the request without a guaranteed good outcome. The goal isn’t to eliminate the risk, but to make it worth taking.',
+        readySigns: [
+          'Has postponed the same conversation or task multiple times, each time with a plausible reason',
+          'Changes the subject quickly when it gets close to the avoided topic',
+          'Can describe what they’re avoiding but not what they’re afraid will happen if they don’t',
+          'Fills time with lower-stakes, unrelated busywork instead'
+        ],
+        coachMoves: [
+          'Ask directly what outcome the avoidance is protecting against, rather than treating it as laziness or lack of discipline',
+          'Reduce the step size until it feels doable — a full hard conversation may be too big a first move',
+          'Separate the feared outcome from the actual likely outcome, out loud',
+          'Rehearse the opening line or first sentence together, so the hardest part isn’t improvised in the moment'
+        ],
+        sampleLanguage: [
+          '"What are you protecting yourself from by not doing or saying this?"',
+          '"What’s the smallest true thing you could say to start?"',
+          '"What would it cost you to keep putting this off for another month?"'
+        ]
+      }
+    ]
+  },
+
+  {
+    id: 'anxiety-to-calm',
+    title: 'From Anxiety to Calm',
+    source: 'Atlas of the Heart',
+    intro: 'Anxiety keeps attention locked on an uncertain future; calm is built, not willed, usually through a concrete practice rehearsed before it’s needed.',
+    steps: ['anxiety', 'calm'],
+    transitions: [
+      {
+        id: 'anxiety-to-calm',
+        from: 'anxiety',
+        to: 'calm',
+        summary: 'Moving attention from an uncertain future back into what’s actually happening right now.',
+        whatShifts: 'Anxiety keeps the client’s attention locked on an unpredictable future and what might go wrong, often compounding through over-planning and rehearsal. Calm isn’t the absence of the underlying uncertainty — it’s a nervous-system state the client can access on purpose, usually through a concrete, practiced tool rather than willpower alone.',
+        readySigns: [
+          'Describes racing thoughts, rehearsal of worst-case scenarios, or difficulty settling',
+          'Seeks certainty or reassurance about things that are genuinely unknowable right now',
+          'Reports physical activation — racing heart, shallow breath, muscle tension — tied to the worry',
+          'Has tried "just relaxing" without success, because there’s no concrete practice attached'
+        ],
+        coachMoves: [
+          'Separate what’s in the client’s control right now from what isn’t, and redirect attention to the former',
+          'Introduce and rehearse one concrete grounding practice in the session itself (breath, senses, movement) rather than just discussing it',
+          'Ask what a slightly calmer version of the client would do differently right now',
+          'Build the practice into a regular rhythm before it’s needed, not only in the moment of high anxiety'
+        ],
+        sampleLanguage: [
+          '"What is actually within your control here, right now?"',
+          '"What would you do right now if you knew this would turn out fine?"',
+          '"What practice helps you find calm when things get intense — and when could you practice it before you need it?"'
+        ]
+      }
+    ]
+  },
+
+  {
+    id: 'defensiveness-to-curiosity',
+    title: 'From Defensiveness to Curiosity',
+    source: 'Atlas of the Heart',
+    intro: 'Defensiveness treats feedback as an attack to repel; curiosity treats it as information to examine. The shift usually hinges on a few extra seconds before responding.',
+    steps: ['defensiveness', 'curiosity'],
+    transitions: [
+      {
+        id: 'defensiveness-to-curiosity',
+        from: 'defensiveness',
+        to: 'curiosity',
+        summary: 'Turning "that’s not true" into "tell me more" — the core move in becoming coachable.',
+        whatShifts: 'Defensiveness treats feedback or criticism as an attack to repel — through denial, justification, or counterattack — which shuts down the exchange before anything useful can be learned. Curiosity treats the same input as information worth examining, even when it stings, which is what actually makes someone coachable.',
+        readySigns: [
+          'Interrupts to explain or justify before the other person finishes',
+          'Responds to feedback with a counter-example of the other person’s flaws',
+          'Describes feedback conversations as "attacks" rather than input',
+          'Physically tenses (crossed arms, raised voice) as soon as criticism starts'
+        ],
+        coachMoves: [
+          'Build in a pause before response — even five seconds — as a practiced habit, not just an intention',
+          'Ask the client to find the 10% that’s true in the feedback before addressing the 90% they disagree with',
+          'Separate the delivery of the feedback from its content — a clumsy delivery doesn’t make the content wrong',
+          'Practice a single curious follow-up question in place of an immediate rebuttal: "Say more about that"'
+        ],
+        sampleLanguage: [
+          '"What did you hear that felt like an attack, even if it wasn’t meant that way?"',
+          '"What’s true in what they said, even if the delivery was hard to hear?"',
+          '"What would it look like to just listen for one more minute before responding?"'
+        ]
+      }
+    ]
+  },
+
+  {
+    id: 'loneliness-to-belonging',
+    title: 'From Loneliness to Belonging',
+    source: 'Atlas of the Heart',
+    intro: 'Loneliness is the gap between the connection someone wants and what they have; belonging is a durable sense of being fully accepted somewhere. Between them is usually one real, un-curated connection.',
+    steps: ['loneliness', 'connection-emotion', 'belonging'],
+    transitions: [
+      {
+        id: 'loneliness-to-connection',
+        from: 'loneliness',
+        to: 'connection-emotion',
+        summary: 'Closing the gap between the contact a client has and the connection they actually want, one real exchange at a time.',
+        whatShifts: 'Loneliness is the distressing gap between the connection someone wants and the connection they have — and it often persists even when someone is surrounded by people, if none of it is the depth they’re craving. Connection requires risking a little more visibility than surface contact does — sharing something real, and being met.',
+        readySigns: [
+          'Describes being around people often but still feeling unseen or unknown',
+          'Substitutes low-risk contact (scrolling, texting) for the depth they say they want',
+          'Can name what kind of connection is missing but hasn’t made a direct request for it',
+          'Withdraws further exactly when reaching out would help most'
+        ],
+        coachMoves: [
+          'Distinguish quantity of contact from depth of connection — more people isn’t the same as more connection',
+          'Identify one existing relationship with the most potential for depth, rather than starting from zero',
+          'Design one small, concrete, low-risk act of reaching out this week — a specific message, invitation, or question',
+          'Normalize that real connection requires risking being fully seen, not just being present'
+        ],
+        sampleLanguage: [
+          '"What kind of connection are you missing most right now?"',
+          '"What’s one small, low-risk way to reach out this week?"',
+          '"What would you need to share to be really known by this person, not just around them?"'
+        ]
+      },
+      {
+        id: 'connection-to-belonging',
+        from: 'connection-emotion',
+        to: 'belonging',
+        summary: 'Turning one genuine connection into a standing sense of being fully accepted, without editing, in a group or place.',
+        whatShifts: 'A single connection can feel real and still leave someone performing or adjusting elsewhere. Belonging is broader and more durable — a sense of being accepted as they actually are, across a relationship or community, with no persistent need to earn or edit their way in.',
+        readySigns: [
+          'Has one or more genuine connections, but still edits themselves in most group settings',
+          'Describes specific places or groups where they feel like they have to perform to be accepted',
+          'Contrasts one space where they feel free to be themselves with others where they don’t',
+          'Questions whether people would still like them if they saw the "unedited" version'
+        ],
+        coachMoves: [
+          'Identify the specific setting where the client already feels most like themselves, and ask what makes that possible there',
+          'Name concretely what gets edited out in settings where belonging is missing',
+          'Experiment with revealing one authentic reaction or opinion in a lower-stakes group setting',
+          'Reframe belonging as something built through consistent small acts of showing up authentically, not granted all at once'
+        ],
+        sampleLanguage: [
+          '"Where do you feel most able to be fully yourself — and what makes that possible there?"',
+          '"What part of yourself are you editing out in the places that feel less safe?"',
+          '"What would it take to bring a little more of that freedom into other parts of your life?"'
+        ]
+      }
+    ]
+  },
+
+  {
+    id: 'hubris-to-humility',
+    title: 'From Hubris to Humility',
+    source: 'Atlas of the Heart',
+    intro: 'Hubris protects a fragile self-image by inflating it; humility replaces that fragility with genuine, checkable confidence. The shift usually starts with one piece of feedback the client stops deflecting.',
+    steps: ['hubris', 'humility'],
+    transitions: [
+      {
+        id: 'hubris-to-humility',
+        from: 'hubris',
+        to: 'humility',
+        summary: 'Trading a fragile, inflated self-image for a grounded one that can actually take feedback in.',
+        whatShifts: 'Hubris protects a fragile sense of self-worth by inflating it and requires putting others down, or dismissing input, to maintain the image. Humility replaces that fragility with an accurate, steadier view of oneself — capable of acknowledging limits and taking in feedback without the whole identity feeling threatened.',
+        readySigns: [
+          'Reacts to any challenge or feedback with defensiveness or dismissal',
+          'Exaggerates their own role in successes and minimizes others’ contributions',
+          'Needs frequent external validation to feel secure in their standing',
+          'Shows a flash of visible relief when allowed to admit a mistake without being attacked for it'
+        ],
+        coachMoves: [
+          'Create a low-stakes opportunity to practice admitting a small, low-cost mistake out loud',
+          'Ask who else contributed to a recent success, and invite the client to name it unprompted',
+          'Separate self-worth from being right — model that both can coexist with being wrong sometimes',
+          'Invite the client to actively solicit one piece of feedback they’ve been avoiding'
+        ],
+        sampleLanguage: [
+          '"Whose feedback have you been dismissing that might be worth a second look?"',
+          '"Who else contributed to this, and have you acknowledged them?"',
+          '"What would happen if you asked someone to challenge this assumption?"'
+        ]
+      }
     ]
   }
 ];

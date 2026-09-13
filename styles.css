@@ -300,6 +300,46 @@ main {
   font-size: 1.1rem;
 }
 
+.pathway-group {
+  padding: 22px 0;
+  border-top: 1px solid var(--border);
+}
+
+.pathway-group:first-child {
+  padding-top: 0;
+  border-top: none;
+}
+
+.pathway-group h3 {
+  margin: 0 0 8px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.group-source {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--card-color, var(--accent));
+}
+
+.group-intro {
+  max-width: 68ch;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin: 0 0 14px;
+}
+
+.pathway-group .ladder-diagram {
+  margin-bottom: 16px;
+}
+
 .pathways-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));

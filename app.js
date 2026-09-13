@@ -1,7 +1,6 @@
 (function () {
   const catById = Object.fromEntries(CATEGORIES.map(c => [c.id, c]));
   const emotionById = Object.fromEntries(EMOTIONS.map(e => [e.id, e]));
-  const ontologicalCat = catById['ontological'];
 
   const grid = document.getElementById('emotion-grid');
   const chipsWrap = document.getElementById('category-chips');
@@ -159,17 +158,16 @@
     document.body.style.overflow = '';
   }
 
-  // ---- Transition (mood ladder) detail panel ----
-  function openTransitionDetail(t) {
+  // ---- Transition (coaching pathway) detail panel ----
+  function openTransitionDetail(t, group, color) {
     const fromEmotion = emotionById[t.from];
     const toEmotion = emotionById[t.to];
-    const color = ontologicalCat.color;
     detailContent.style.setProperty('--card-color', color);
     const panel = document.querySelector('.detail-panel');
     panel.style.setProperty('--card-color', color);
 
     detailContent.innerHTML = `
-      <div class="detail-cat"><span class="swatch"></span>${ontologicalCat.title}</div>
+      <div class="detail-cat"><span class="swatch"></span>${group.source} · ${group.title}</div>
       <h2 id="detail-name">${fromEmotion.name} <span class="arrow-sep" aria-hidden="true">→</span> ${toEmotion.name}</h2>
       <p class="detail-def">${t.summary}</p>
 
@@ -242,46 +240,75 @@
 
   identifyInput.addEventListener('input', runIdentify);
 
-  // ---- Pathways mode (the Mood Ladder) ----
-  const ladderDiagram = document.getElementById('ladder-diagram');
-  const pathwaysList = document.getElementById('pathways-list');
+  // ---- Pathways mode (Coaching Pathways library) ----
+  const pathwaysGroups = document.getElementById('pathways-groups');
 
-  function renderLadder() {
-    if (!ladderDiagram) return;
-    const moodIds = ['resentment-mood', 'resignation-mood', 'acceptance-mood', 'peace-mood'];
-    moodIds.forEach((id, i) => {
+  function groupColor(group) {
+    return catById[emotionById[group.steps[0]].category].color;
+  }
+
+  function renderGroupLadder(group, color) {
+    const diagram = document.createElement('div');
+    diagram.className = 'ladder-diagram';
+    diagram.setAttribute('aria-hidden', 'true');
+    group.steps.forEach((id, i) => {
       const mood = emotionById[id];
       const step = document.createElement('span');
       step.className = 'ladder-step';
-      step.style.setProperty('--step-color', ontologicalCat.color);
-      step.style.setProperty('--step-opacity', 0.45 + (i * 0.55) / (moodIds.length - 1));
+      step.style.setProperty('--step-color', color);
+      step.style.setProperty('--step-opacity', group.steps.length > 1 ? 0.45 + (i * 0.55) / (group.steps.length - 1) : 1);
       step.textContent = mood.name;
-      ladderDiagram.appendChild(step);
-      if (i < moodIds.length - 1) {
+      diagram.appendChild(step);
+      if (i < group.steps.length - 1) {
         const arrow = document.createElement('span');
         arrow.className = 'ladder-arrow';
-        arrow.setAttribute('aria-hidden', 'true');
         arrow.textContent = '→';
-        ladderDiagram.appendChild(arrow);
+        diagram.appendChild(arrow);
       }
     });
+    return diagram;
+  }
+
+  function makeTransitionCard(t, group, color) {
+    const fromEmotion = emotionById[t.from];
+    const toEmotion = emotionById[t.to];
+    const card = document.createElement('button');
+    card.className = 'card pathway-card';
+    card.style.setProperty('--card-color', color);
+    card.innerHTML = `
+      <span class="card-cat"><span class="swatch"></span>${group.source}</span>
+      <h3>${fromEmotion.name} <span class="arrow-sep" aria-hidden="true">→</span> ${toEmotion.name}</h3>
+      <p>${t.summary}</p>
+    `;
+    card.addEventListener('click', () => openTransitionDetail(t, group, color));
+    return card;
   }
 
   function renderPathways() {
-    if (!pathwaysList) return;
-    MOOD_LADDER.forEach(t => {
-      const fromEmotion = emotionById[t.from];
-      const toEmotion = emotionById[t.to];
-      const card = document.createElement('button');
-      card.className = 'card pathway-card';
-      card.style.setProperty('--card-color', ontologicalCat.color);
-      card.innerHTML = `
-        <span class="card-cat"><span class="swatch"></span>Mood Ladder</span>
-        <h3>${fromEmotion.name} <span class="arrow-sep" aria-hidden="true">→</span> ${toEmotion.name}</h3>
-        <p>${t.summary}</p>
-      `;
-      card.addEventListener('click', () => openTransitionDetail(t));
-      pathwaysList.appendChild(card);
+    if (!pathwaysGroups) return;
+    COACHING_PATHWAYS.forEach(group => {
+      const color = groupColor(group);
+      const section = document.createElement('div');
+      section.className = 'pathway-group';
+      section.style.setProperty('--card-color', color);
+
+      const heading = document.createElement('h3');
+      heading.innerHTML = `${group.title} <span class="group-source">— ${group.source}</span>`;
+      section.appendChild(heading);
+
+      const intro = document.createElement('p');
+      intro.className = 'group-intro';
+      intro.textContent = group.intro;
+      section.appendChild(intro);
+
+      section.appendChild(renderGroupLadder(group, color));
+
+      const list = document.createElement('div');
+      list.className = 'pathways-list';
+      group.transitions.forEach(t => list.appendChild(makeTransitionCard(t, group, color)));
+      section.appendChild(list);
+
+      pathwaysGroups.appendChild(section);
     });
   }
 
@@ -307,6 +334,5 @@
   renderChips();
   renderGrid();
   renderExamples();
-  renderLadder();
   renderPathways();
 })();
