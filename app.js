@@ -74,6 +74,7 @@
     btn.className = 'chip' + (id === activeCategory ? ' active' : '');
     btn.dataset.cat = id;
     if (color) {
+      btn.style.setProperty('--chip-color', color);
       const dot = document.createElement('span');
       dot.className = 'dot';
       dot.style.background = color;
@@ -102,7 +103,7 @@
     card.className = 'card';
     card.style.setProperty('--card-color', cat.color);
     card.innerHTML = `
-      <span class="card-cat">${cat.short}</span>
+      <span class="card-cat"><span class="swatch"></span>${cat.short}</span>
       <h3>${e.name}</h3>
       <p>${e.definition}</p>
       <span class="card-trigger">Trigger: ${e.triggers}</span>
@@ -119,7 +120,7 @@
     panel.style.setProperty('--card-color', cat.color);
 
     detailContent.innerHTML = `
-      <div class="detail-cat">Category ${cat.number} · ${cat.title}</div>
+      <div class="detail-cat"><span class="swatch"></span>Category ${cat.number} · ${cat.title}</div>
       <h2 id="detail-name">${e.name}</h2>
       <p class="detail-def">${e.definition}</p>
 
