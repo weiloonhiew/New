@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Philosophy Atlas</title>
+<meta name="description" content="A study reference mapping key concepts across five traditions — Heidegger's Being, the Diamond Sutra, Carl Jung, Shelly Kagan's Death course, and Laurie Santos's Happiness course — to their definitions, distinctions, misreadings, and reflective questions.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Karla:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">◆</span>
+        <div>
+          <h1>Philosophy Atlas</h1>
+          <p class="tagline">Five traditions on being, emptiness, the psyche, death, and happiness — browsable concepts, each mapped to its definition, key distinctions, common misreadings, and questions worth sitting with.</p>
+        </div>
+        <a class="lang-switch" href="../index.html">◈ Emotion Atlas</a>
+      </div>
+      <nav class="mode-tabs" id="tradition-tabs" role="tablist" aria-label="Tradition"></nav>
+    </div>
+  </header>
+
+  <main>
+    <div id="tradition-intro" class="tradition-intro"></div>
+
+    <div class="toolbar">
+      <div class="search-row">
+        <input type="search" id="search-input" placeholder="Search this tradition's concepts…" autocomplete="off">
+      </div>
+      <div class="chips" id="category-chips" role="list" aria-label="Filter by category"></div>
+    </div>
+
+    <div class="grid" id="concept-grid"></div>
+    <p id="empty-state" class="empty-state" hidden>No matches — try a different word, or clear the search.</p>
+  </main>
+
+  <!-- DETAIL PANEL -->
+  <div id="detail-overlay" class="overlay" hidden>
+    <div class="detail-panel" role="dialog" aria-modal="true" aria-labelledby="detail-name">
+      <button class="close-btn" id="detail-close" aria-label="Close">&times;</button>
+      <div id="detail-content"></div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <p>Five traditions, browsed the same way: Martin Heidegger's <em>Being and Time</em>; the <em>Diamond Sutra</em> (Vajracchedikā Prajñāpāramitā Sūtra, 金刚经); Carl Jung's analytical psychology; Shelly Kagan's Yale course <em>Death</em> (PHIL 176, Open Yale Courses); and Laurie Santos's Yale course <em>Psychology and the Good Life</em> / <em>The Science of Well-Being</em>. All definitions, "in one line" glosses, key distinctions, common misreadings, and reflective questions here are original synthesis written for study and reference use, not verbatim text from any of these sources. This tool is a study companion — and no substitute for reading the primary sources, taking the courses themselves, or (for the Death and Happiness sections) professional medical, psychological, or end-of-life guidance.</p>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
