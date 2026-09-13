@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>情緒地圖：教練專用</title>
+<meta name="description" content="一份教練參考工具，將 Brené Brown《心之地圖》中的 87 種情緒，以及本體論教練傳統中的 4 種基礎心境，對應到可觀察的行為傾向。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Karla:wght@400;500;600;700&family=Noto+Serif+TC:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">◈</span>
+        <div>
+          <h1>情緒地圖 <span class="brand-sub">教練專用</span></h1>
+          <p class="tagline">91 種情緒、經驗與心境，對應到能揭露它們的行為傾向——涵蓋 Brené Brown《心之地圖》（<em>Atlas of the Heart</em>）的 13 大類，以及來自本體論教練傳統的 4 種基礎心境。</p>
+        </div>
+        <a class="lang-switch" href="index.html">English</a>
+      </div>
+      <nav class="mode-tabs" role="tablist" aria-label="檢視模式">
+        <button class="tab-btn active" data-mode="browse" role="tab" aria-selected="true">瀏覽情緒地圖</button>
+        <button class="tab-btn" data-mode="identify" role="tab" aria-selected="false">辨識情緒</button>
+        <button class="tab-btn" data-mode="pathways" role="tab" aria-selected="false">教練路徑</button>
+        <button class="tab-btn" data-mode="listening" role="tab" aria-selected="false">傾聽</button>
+        <button class="tab-btn" data-mode="language" role="tab" aria-selected="false">語言</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- 瀏覽模式 -->
+    <section id="browse-mode" class="mode-panel">
+      <div class="toolbar">
+        <div class="chips" id="category-chips" role="list" aria-label="依分類篩選"></div>
+      </div>
+      <div class="grid" id="emotion-grid"></div>
+    </section>
+
+    <!-- 辨識模式 -->
+    <section id="identify-mode" class="mode-panel" hidden>
+      <div class="identify-intro">
+        <h2>你觀察到了什麼？</h2>
+        <p>輸入你在個案身上觀察到的內容——一句話、一種行為、一個身體線索、一個誘因，或一個情緒詞——即可找出最可能符合的情緒，並看到完整的行為傾向剖析。</p>
+        <div class="search-row">
+          <input type="search" id="identify-input" placeholder="例如：不敢眼神接觸、一直道歉、下巴緊咬、不會拒絕⋯⋯" autocomplete="off">
+        </div>
+        <div class="example-tags" id="example-tags" aria-label="試試看範例"></div>
+      </div>
+      <div id="identify-results" class="grid"></div>
+      <p id="identify-empty" class="empty-state" hidden>目前沒有符合的結果——試試看不同的詞，或縮短你輸入的內容。</p>
+    </section>
+
+    <!-- 路徑模式 -->
+    <section id="pathways-mode" class="mode-panel" hidden>
+      <div class="pathways-intro">
+        <h2>教練路徑</h2>
+        <p>一套小型指南庫，協助教練帶領個案從卡住、封閉的狀態，走向更有資源、更開放的狀態——部分取材自本體論教練的心境階梯，部分則由《心之地圖》中的情緒配對而成。點選任一組配對，即可開啟完整指南：轉變的關鍵、個案準備好轉變的訊號、教練可用的介入方式，以及可參考的教練語言。</p>
+      </div>
+      <div id="pathways-groups"></div>
+    </section>
+
+    <!-- 傾聽模式 -->
+    <section id="listening-mode" class="mode-panel" hidden>
+      <div class="pathways-intro">
+        <h2>傾聽</h2>
+        <p>取材自 Alan Sieler 的本體論教練模型：傾聽並非被動接收——它是一種主動的解讀行動，受到心情、身體，以及一段傾聽者往往未曾察覺的個人與文化歷史所形塑。教練自身的傾聽方式，是一項可以刻意設計的技能，而不是一個可以盲目信任的預設值。</p>
+      </div>
+      <div class="grid" id="listening-grid"></div>
+    </section>
+
+    <!-- 語言模式 -->
+    <section id="language-mode" class="mode-panel" hidden>
+      <div class="pathways-intro">
+        <h2>語言：基本言語行為</h2>
+        <p>本體論教練從言語行為理論中所汲取的區分：每一場對話，都是由一小組語言行動所構成的——斷言、評估、宣告、提議、承諾，以及請求——每一種都有各自成立、能夠有效落地的條件。這裡特別著重於「請求」：一個缺少任一組成要素的請求，遠比一個結構完整的請求，更容易被誤解、被忽略，或悄悄化為怨恨，而不是被真正落實。</p>
+      </div>
+      <div class="grid" id="language-grid"></div>
+    </section>
+  </main>
+
+  <!-- 詳細面板 -->
+  <div id="detail-overlay" class="overlay" hidden>
+    <div class="detail-panel" role="dialog" aria-modal="true" aria-labelledby="detail-name">
+      <button class="close-btn" id="detail-close" aria-label="關閉">&times;</button>
+      <div id="detail-content"></div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <p>本站內容與分類架構，參考了數種教練傳統：Brené Brown《心之地圖》（<em>Atlas of the Heart</em>）的 13 大類架構；源自本體論教練（Echeverría／Newfield）的「行動心境」概念，因其將心境視為持續的姿態、而非一時的情緒，故獨立列為第 14 類；Alan Sieler 的本體論教練傾聽模型；以及同一傳統中使用的言語行為區分（斷言、評估、宣告、提議、承諾、請求）。本站所有定義、行為傾向、身體線索與教練提問，皆為教練實務用途所撰寫的原創內容，並非直接引用上述任一來源的原文。本工具用於輔助──而非取代──臨床判斷或專業心理健康照護。</p>
+  </footer>
+
+  <script src="data.zh.js"></script>
+  <script src="app.zh.js"></script>
+</body>
+</html>

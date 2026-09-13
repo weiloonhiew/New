@@ -8,8 +8,8 @@
   --accent-soft: #ebf1f6;
   --shadow: 0 1px 2px rgba(30, 28, 20, 0.06), 0 4px 16px rgba(30, 28, 20, 0.07);
   --radius: 14px;
-  --font-display: 'Source Serif 4', Georgia, 'Times New Roman', serif;
-  --font-body: 'Karla', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-display: 'Source Serif 4', 'Noto Serif TC', Georgia, 'Times New Roman', serif;
+  --font-body: 'Karla', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang TC', 'Microsoft JhengHei', Roboto, Helvetica, Arial, sans-serif;
   color-scheme: light;
 }
 
@@ -72,6 +72,27 @@ h1, h2, h3 {
   display: flex;
   align-items: flex-start;
   gap: 14px;
+}
+
+.brand > .lang-switch {
+  margin-left: auto;
+}
+
+.lang-switch {
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.lang-switch:hover {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .brand-mark {
