@@ -24,6 +24,8 @@
         <button class="tab-btn active" data-mode="browse" role="tab" aria-selected="true">Browse the Atlas</button>
         <button class="tab-btn" data-mode="identify" role="tab" aria-selected="false">Identify an Emotion</button>
         <button class="tab-btn" data-mode="pathways" role="tab" aria-selected="false">Coaching Pathways</button>
+        <button class="tab-btn" data-mode="listening" role="tab" aria-selected="false">Listening</button>
+        <button class="tab-btn" data-mode="language" role="tab" aria-selected="false">Language</button>
       </nav>
     </div>
   </header>
@@ -59,6 +61,24 @@
       </div>
       <div id="pathways-groups"></div>
     </section>
+
+    <!-- LISTENING MODE -->
+    <section id="listening-mode" class="mode-panel" hidden>
+      <div class="pathways-intro">
+        <h2>Listening</h2>
+        <p>From Alan Sieler's ontological coaching model: listening is not passive reception — it's an active act of interpretation, shaped by mood, body, and a personal and cultural history the listener rarely notices in the moment. A coach's own listening is a skill to design on purpose, not a default to trust blindly.</p>
+      </div>
+      <div class="grid" id="listening-grid"></div>
+    </section>
+
+    <!-- LANGUAGE MODE -->
+    <section id="language-mode" class="mode-panel" hidden>
+      <div class="pathways-intro">
+        <h2>Language: The Basic Speech Acts</h2>
+        <p>The distinctions ontological coaching draws from speech act theory: every conversation is built from a small set of linguistic acts — assertions, assessments, declarations, offers, promises, and requests — each with its own conditions for landing well. Requests get particular attention here: a request missing one of its structural components is far more likely to be misunderstood, ignored, or quietly resented than fulfilled.</p>
+      </div>
+      <div class="grid" id="language-grid"></div>
+    </section>
   </main>
 
   <!-- DETAIL PANEL -->
@@ -70,7 +90,7 @@
   </div>
 
   <footer class="site-footer">
-    <p>Content and categorization draw on two coaching traditions: the 13-category framework in Brené Brown's <em>Atlas of the Heart</em>, and the "moods for action" concept from Ontological Coaching (Echeverría / Newfield), shown in its own 14th category since it treats moods as sustained dispositions rather than momentary emotions. All definitions, predisposition patterns, body cues, and coaching questions here are original material written for coaching use, not text from either source. This tool supports — and does not replace — clinical judgment or licensed mental health care.</p>
+    <p>Content and categorization draw on several coaching traditions: the 13-category framework in Brené Brown's <em>Atlas of the Heart</em>; the "moods for action" concept from Ontological Coaching (Echeverría / Newfield), shown in its own 14th category since it treats moods as sustained dispositions rather than momentary emotions; Alan Sieler's ontological coaching model of listening; and the speech-act distinctions (assertions, assessments, declarations, offers, promises, requests) used across that same tradition. All definitions, predisposition patterns, body cues, and coaching questions here are original material written for coaching use, not text from any of these sources. This tool supports — and does not replace — clinical judgment or licensed mental health care.</p>
   </footer>
 
   <script src="data.js"></script>

@@ -103,6 +103,7 @@ h1, h2, h3 {
 
 .mode-tabs {
   display: flex;
+  flex-wrap: wrap;
   gap: 4px;
 }
 
@@ -461,7 +462,8 @@ main {
   color: var(--text-muted);
 }
 
-.detail-block ul {
+.detail-block ul,
+.detail-block ol {
   margin: 0;
   padding-left: 18px;
 }
@@ -469,6 +471,18 @@ main {
 .detail-block li {
   margin-bottom: 5px;
   font-size: 0.94rem;
+}
+
+.components-list {
+  list-style: decimal;
+}
+
+.components-list li {
+  margin-bottom: 10px;
+}
+
+.components-list strong {
+  color: var(--card-color, var(--accent));
 }
 
 .detail-block p.plain {

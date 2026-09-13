@@ -312,11 +312,91 @@
     });
   }
 
+  // ---- Reference sections (Listening, Language) ----
+  // Shared rendering for simple "distinction" reference content: a card grid that opens into
+  // the same detail-panel pattern used everywhere else in the app.
+  const LISTENING_COLOR = '#4B6A88';
+  const LANGUAGE_COLOR = '#7A6B4B';
+
+  function makeReferenceCard(item, label, color, onOpen) {
+    const card = document.createElement('button');
+    card.className = 'card';
+    card.style.setProperty('--card-color', color);
+    card.innerHTML = `
+      <span class="card-cat"><span class="swatch"></span>${label}</span>
+      <h3>${item.name}</h3>
+      <p>${item.definition}</p>
+    `;
+    card.addEventListener('click', onOpen);
+    return card;
+  }
+
+  function openReferenceDetail(item, label, color, componentsHeading) {
+    detailContent.style.setProperty('--card-color', color);
+    const panel = document.querySelector('.detail-panel');
+    panel.style.setProperty('--card-color', color);
+
+    const componentsHtml = item.components ? `
+      <div class="detail-block">
+        <h4>${componentsHeading || 'Components'}</h4>
+        <ol class="components-list">${item.components.map(c => `<li><strong>${c.name}</strong> — ${c.detail}</li>`).join('')}</ol>
+      </div>
+    ` : '';
+
+    detailContent.innerHTML = `
+      <div class="detail-cat"><span class="swatch"></span>${label}</div>
+      <h2 id="detail-name">${item.name}</h2>
+      <p class="detail-def">${item.definition}</p>
+
+      ${componentsHtml}
+
+      <div class="detail-block">
+        <h4>What It Looks Like When It Breaks Down</h4>
+        <ul>${item.breakdown.map(p => `<li>${p}</li>`).join('')}</ul>
+      </div>
+
+      <div class="detail-block">
+        <h4>How to Strengthen This</h4>
+        <ul>${item.practice.map(p => `<li>${p}</li>`).join('')}</ul>
+      </div>
+
+      <div class="detail-block">
+        <h4>Questions to Ask</h4>
+        <ul>${item.questions.map(p => `<li>${p}</li>`).join('')}</ul>
+      </div>
+
+      ${item.note ? `<div class="detail-note">${item.note}</div>` : ''}
+    `;
+    overlay.hidden = false;
+    document.body.style.overflow = 'hidden';
+  }
+
+  const listeningGrid = document.getElementById('listening-grid');
+  const languageGrid = document.getElementById('language-grid');
+
+  function renderListening() {
+    if (!listeningGrid) return;
+    const label = 'Listening — Sieler';
+    LISTENING_DISTINCTIONS.forEach(item => {
+      listeningGrid.appendChild(makeReferenceCard(item, label, LISTENING_COLOR, () => openReferenceDetail(item, label, LISTENING_COLOR)));
+    });
+  }
+
+  function renderLanguage() {
+    if (!languageGrid) return;
+    const label = 'Language — Speech Acts';
+    SPEECH_ACTS.forEach(item => {
+      languageGrid.appendChild(makeReferenceCard(item, label, LANGUAGE_COLOR, () => openReferenceDetail(item, label, LANGUAGE_COLOR, 'Components of an Effective Request')));
+    });
+  }
+
   // ---- Mode tabs ----
   const tabBtns = document.querySelectorAll('.tab-btn');
   const browsePanel = document.getElementById('browse-mode');
   const identifyPanel = document.getElementById('identify-mode');
   const pathwaysPanel = document.getElementById('pathways-mode');
+  const listeningPanel = document.getElementById('listening-mode');
+  const languagePanel = document.getElementById('language-mode');
 
   tabBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -327,6 +407,8 @@
       browsePanel.hidden = mode !== 'browse';
       identifyPanel.hidden = mode !== 'identify';
       if (pathwaysPanel) pathwaysPanel.hidden = mode !== 'pathways';
+      if (listeningPanel) listeningPanel.hidden = mode !== 'listening';
+      if (languagePanel) languagePanel.hidden = mode !== 'language';
     });
   });
 
@@ -335,4 +417,6 @@
   renderGrid();
   renderExamples();
   renderPathways();
+  renderListening();
+  renderLanguage();
 })();

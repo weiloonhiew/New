@@ -1168,3 +1168,287 @@ const COACHING_PATHWAYS = [
     ]
   }
 ];
+
+// Listening: drawing on Alan Sieler's ontological coaching model of listening as an active,
+// interpretive act — not passive reception — including his concept of "already-listening," and
+// the personal/cultural context (history, upbringing, linguistic community) that shapes it.
+// Original material written for coaching use, not quoted from Sieler's writing.
+const LISTENING_DISTINCTIONS = [
+  {
+    id: 'interpretation-not-reception',
+    name: 'Listening Is Interpretation, Not Reception',
+    definition: 'Listening is not the passive act of receiving sound waves — it is an active, biological and linguistic act of interpretation. What a person "hears" is never the raw words alone; it is the words filtered through their own body, emotional state, history, and language community. Two people in the same room, hearing the same sentence, can genuinely listen to two different things.',
+    breakdown: [
+      'Coach assumes their read of what the client said is simply "what happened," not one interpretation among others',
+      'Client insists "that’s just what you said" when a disagreement is really about differing interpretations',
+      'A conversation stalls because each party believes the other simply isn’t listening, when both are listening accurately — just differently',
+      'The same kind of miscommunication with the same person recurs, without ever naming the interpretive gap'
+    ],
+    practice: [
+      'Treat your own interpretation as a hypothesis to test, not a fact to defend',
+      'Say the interpretation out loud and check it: "Here’s what I’m hearing — is that what you meant?"',
+      'Notice when a disagreement is actually a difference in interpretation rather than a factual dispute',
+      'Get curious about what in the other person’s history or context might produce a different, equally valid hearing of the same words'
+    ],
+    questions: [
+      'What did I just hear, versus what did they actually say?',
+      'What in my own history or mood might be shaping this interpretation?',
+      'If I’m wrong about what they meant, what else could it mean?'
+    ]
+  },
+  {
+    id: 'already-listening',
+    name: 'Already-Listening',
+    definition: 'A term from ontological coaching (developed within the Sieler tradition) for the automatic, pre-formed listening a person brings into a conversation before a single word is spoken. It’s built from past history, judgments already made about the speaker or topic, and current mood — and it acts like a filter, selectively admitting only what confirms what’s already believed. Because it operates automatically and mostly outside awareness, it can distort an entire conversation without either party realizing it.',
+    breakdown: [
+      'The coach or client has already formed a firm judgment about the other person before the conversation begins ("he never listens," "she always does this")',
+      'New information that contradicts the existing judgment gets minimized, explained away, or simply not registered',
+      'The same complaint or story about a person or situation keeps recurring, unchanged, across many conversations',
+      'A conversation seems to confirm a belief that was actually decided long before it started'
+    ],
+    practice: [
+      'Before a difficult conversation, name your own already-listening out loud, even just to yourself: "What am I already assuming about how this will go?"',
+      'Invite the client to notice their own already-listening about a person or situation they keep having the same conflict with',
+      'Ask what evidence would have to show up to change the existing judgment — and watch for it',
+      'Separate "what I’ve already decided about them" from "what they’re actually saying right now"'
+    ],
+    questions: [
+      'What have I already decided about this person or topic, before they’ve said a word?',
+      'What would I need to hear to actually revise that judgment?',
+      'Whose voice or past experience is this already-listening actually coming from?'
+    ]
+  },
+  {
+    id: 'automatic-vs-designed-listening',
+    name: 'Automatic Listening vs. Designed Listening',
+    definition: 'Automatic listening is the default mode: reactive, driven by habitual moods, judgments, and already-listening, requiring no conscious choice. Designed listening is a deliberate act — choosing, in advance, what to listen for: possibility rather than only problem, the client’s concerns rather than just their words, what’s unsaid as much as what’s said. Ontological coaching treats this as a trainable coaching skill, not a fixed trait.',
+    breakdown: [
+      'Coach listens mainly for what confirms their existing read of the client or the problem',
+      'Coach reacts to content — the story — rather than noticing mood, body, and underlying concern',
+      'The same kind of session keeps unfolding the same way because the coach hasn’t chosen a different way to listen',
+      'Listening only for what needs fixing, rather than also for what’s working or what’s possible'
+    ],
+    practice: [
+      'Before a session, consciously choose what you want to listen for — the client’s underlying concern, a shift in mood, or evidence of a value in action',
+      'Deliberately listen underneath the story for the mood and body state accompanying it',
+      'Practice listening for possibility and resourcefulness, not only for problems and deficits',
+      'After a session, reflect on what you were actually listening for, versus what happened automatically'
+    ],
+    questions: [
+      'What am I choosing to listen for in this conversation, on purpose?',
+      'Am I listening for the problem, or also for what’s possible?',
+      'What did I almost miss because I wasn’t listening for it?'
+    ]
+  },
+  {
+    id: 'observation-vs-interpretation',
+    name: 'Observation vs. Interpretation',
+    definition: 'A foundational distinction in ontological coaching’s language work: an observation is what can be directly seen, heard, or verified — words spoken, actions taken; an interpretation is the meaning, story, or judgment layered on top. Skilled listening keeps these two separate in real time — most conflict and misunderstanding comes from treating an interpretation as if it were the observation itself.',
+    breakdown: [
+      'A judgment gets stated as though it were a fact: "You don’t care about this project" instead of "You missed the last two deadlines"',
+      'Client can’t separate what someone did from what they’ve decided it means',
+      'Defensiveness rises sharply once an interpretation is delivered as though it were an observed fact',
+      'An argument about "what really happened" turns out to be an argument about differing interpretations of facts both sides agree on'
+    ],
+    practice: [
+      'When a client makes a claim, ask what was actually said or done, separate from what they concluded it meant',
+      'Model the distinction out loud: "So the fact is X happened — and the story you’re telling about it is Y"',
+      'Help the client re-deliver a judgment as an observation plus an owned interpretation: "When you did X, I made up that Y"',
+      'Practice offering feedback in observation-first form before adding any interpretation'
+    ],
+    questions: [
+      'What did I actually observe, versus what did I conclude it meant?',
+      'Would a neutral third party have seen exactly what I’m describing as fact?',
+      'What interpretation am I currently treating as if it were simply true?'
+    ]
+  },
+  {
+    id: 'listening-for-concerns',
+    name: 'Listening for Concerns',
+    definition: 'Rather than listening only to the surface content of what’s said, ontological coaching trains listening for the client’s underlying concerns — what genuinely matters to them, what they care about protecting or achieving — which often sits beneath the words and the complaint. A request, a complaint, or even small talk is frequently a surface expression of a deeper concern that hasn’t yet been named.',
+    breakdown: [
+      'Coach addresses only the literal content of a complaint or request, missing what it’s really about',
+      'Client repeats variations of the same complaint because the actual underlying concern was never identified or addressed',
+      'A simple logistical request turns out to carry far more emotional weight than its content would suggest',
+      'Advice or solutions offered don’t land, because they answer the words rather than the concern'
+    ],
+    practice: [
+      'When a client raises an issue, ask what they’re actually concerned about underneath it',
+      'Notice when a small, practical-sounding request seems to carry disproportionate emotional charge — that’s often a sign of an unstated concern',
+      'Reflect the possible underlying concern back as a question, not an assertion: "Is part of what’s going on here about feeling respected?"',
+      'Track recurring concerns across sessions, not just recurring topics'
+    ],
+    questions: [
+      'What does this person actually care about that’s driving what they just said?',
+      'What would they be relieved to hear addressed, beyond the literal request?',
+      'Is there a concern here I haven’t named yet, that keeps resurfacing in different forms?'
+    ]
+  },
+  {
+    id: 'history-culture-context',
+    name: 'The History and Culture Behind Listening',
+    definition: 'No one listens from a neutral, universal position. Every listener brings a personal history — family, past relationships, formative experiences — and a cultural and linguistic community, with its own norms about directness, hierarchy, silence, emotional expression, and authority, that shape what gets heard and what gets missed, often invisibly, because it feels like "just how things are." Effective coaching treats this context as something to actively surface, not something to assume is shared.',
+    breakdown: [
+      'Assumes a client’s reaction — or the coach’s own — is universal common sense, rather than shaped by a specific upbringing or culture',
+      'Misreads directness as rudeness, or diplomacy as evasiveness, without considering cultural context',
+      'A generational, organizational, or family history keeps producing the same listening pattern across unrelated situations',
+      'Silence, disagreement, or deference is read the same way regardless of the client’s cultural background'
+    ],
+    practice: [
+      'Ask directly about the client’s history with a topic before assuming what it means to them: "What did you learn growing up about asking for what you need?"',
+      'Notice and name your own cultural or family-of-origin assumptions about communication before treating them as the default',
+      'When something seems like a personality trait, consider whether it’s better explained by a client’s cultural or family context',
+      'Hold norms around directness, hierarchy, and emotional expression as culturally variable, not universally "correct"'
+    ],
+    questions: [
+      'What personal or family history might be shaping how this person listens and speaks?',
+      'What cultural norms about communication am I assuming are universal?',
+      'Where might my own history be the source of how I’m interpreting this, rather than something true about them?'
+    ]
+  }
+];
+
+// Language: the basic speech acts used in ontological coaching's language work (rooted in
+// speech act theory — Austin, Searle — as adapted by the ontological coaching tradition).
+// Requests get an additional `components` field: the specific structural elements of an
+// effective request. Original material written for coaching use.
+const SPEECH_ACTS = [
+  {
+    id: 'assertions',
+    name: 'Assertions',
+    definition: 'A statement about the observable world that can, in principle, be checked as true or false against evidence — "the invoice was sent Tuesday," "the report has twelve pages." Their power in coaching comes from keeping them clearly separate from assessments, which cannot be verified the same way.',
+    breakdown: [
+      'An assessment gets delivered and defended as though it were an assertion — "that’s just a fact" — shutting down any examination of the standard behind it',
+      'A disagreement over an assertion continues even after evidence is presented, revealing it was actually an assessment',
+      'A team argues about "what happened" when they actually agree on the facts and disagree on their meaning'
+    ],
+    practice: [
+      'Before stating something as fact, ask whether it could actually be verified by an independent observer',
+      'When a client states something as fact, ask what evidence it rests on',
+      'Separate "what we can check" from "what we’re interpreting" at the start of a disagreement'
+    ],
+    questions: [
+      'How could this be verified, one way or the other?',
+      'Is this something everyone here would agree on as fact, or is part of it interpretation?',
+      'What evidence is this claim actually based on?'
+    ]
+  },
+  {
+    id: 'assessments',
+    name: 'Assessments (Opinions)',
+    definition: 'An evaluative judgment — "that report is excellent," "she’s a strong leader" — that, unlike an assertion, cannot be proven true or false by pointing to a single fact. Every assessment rests on a standard (often unstated) and a history of observations. A well-grounded assessment is one the speaker can back up with the specific standard and evidence behind it; an ungrounded one is asserted as though it were simply true.',
+    breakdown: [
+      'An assessment is delivered as an unquestionable truth rather than one perspective grounded in a particular standard',
+      'Two people argue past each other because neither has named the standard their assessment rests on',
+      'A harsh assessment ("you’re unreliable") is made with no supporting history or evidence offered',
+      'The client treats someone else’s assessment of them as an immutable fact about who they are, rather than one perspective'
+    ],
+    practice: [
+      'Ask what standard an assessment is being measured against, and whether that standard has been made explicit',
+      'Ask for the specific evidence or history behind an assessment, rather than accepting it as self-evident',
+      'Help the client separate "an assessment someone made of me" from "a fact about who I am"',
+      'Practice grounding your own assessments before offering them: naming the standard and the evidence'
+    ],
+    questions: [
+      'What standard is this assessment being measured against?',
+      'What evidence or history is this opinion actually grounded in?',
+      'Whose assessment is this, and does it have to define how you see yourself?'
+    ]
+  },
+  {
+    id: 'declarations',
+    name: 'Declarations',
+    definition: 'A speech act that brings a new reality into being simply by being spoken — "you’re hired," "I resign," "I forgive you," "it’s over." A declaration doesn’t describe the world; it changes it, provided the speaker has the standing or authority — granted by role, relationship, or social convention — for it to take effect.',
+    breakdown: [
+      'A declaration is made without the standing to back it up (committing someone else’s resources without authority, for instance), so it doesn’t actually take effect',
+      'An important declaration that needs to be made explicitly — ending something, committing to something — is left implied instead, leaving both parties uncertain of where things stand',
+      'A declaration is made but never acknowledged or accepted by the other party, leaving the "new reality" contested'
+    ],
+    practice: [
+      'Help the client notice when a decision has actually been made but never actually declared out loud',
+      'Check whether the client — or the other party — genuinely has the standing to make a particular declaration',
+      'Practice making a needed declaration cleanly and directly, rather than hinting at it',
+      'Confirm that a declaration has actually been heard and accepted, not just spoken'
+    ],
+    questions: [
+      'Is there a declaration here that needs to be made explicitly, rather than left implied?',
+      'Do you — or they — actually have the standing to make this declaration?',
+      'Has this declaration actually been acknowledged by the other person, or only spoken?'
+    ]
+  },
+  {
+    id: 'offers',
+    name: 'Offers',
+    definition: 'A proposal to take a future action for someone else’s benefit — the mirror image of a request. An offer is only complete once the other person accepts, declines, or negotiates it; an offer made and never responded to leaves both parties in an ambiguous, uncommitted space.',
+    breakdown: [
+      'An offer is made vaguely enough that the other person doesn’t realize a real offer was made',
+      'An offer is left hanging with no response, and both parties quietly assume different things happened',
+      'Someone repeatedly offers help that’s never actually accepted, without addressing why'
+    ],
+    practice: [
+      'Help the client make offers specific and concrete enough to actually be accepted or declined',
+      'Ask whether a past offer was ever actually responded to — accepted, declined, or renegotiated',
+      'If an offer keeps being declined, get curious about what it’s actually offering versus what’s needed'
+    ],
+    questions: [
+      'Was that offer specific enough for someone to say yes or no to?',
+      'Did they ever actually respond to the offer, one way or another?',
+      'What would make this offer something they’d actually want to accept?'
+    ]
+  },
+  {
+    id: 'promises',
+    name: 'Promises',
+    definition: 'What a request or offer becomes once it’s accepted with a genuine commitment to deliver — the basic unit of coordinated action and the foundation of trust between people. A promise has the same structural components as a request — a specific action, a timeframe, clear conditions of satisfaction — plus the sincerity to actually follow through.',
+    breakdown: [
+      'Promises are made too casually, without real intention or capacity to keep them, eroding trust over time',
+      'A promise is broken without acknowledgment or repair, left to quietly damage the relationship',
+      'Vague promises ("I’ll take care of it") create mismatched expectations about what was actually committed to'
+    ],
+    practice: [
+      'Help the client notice the gap between what they promise and what they actually intend or are able to deliver',
+      'When a promise is broken, coach a direct acknowledgment and renegotiation rather than avoidance',
+      'Encourage promises specific enough that both parties would agree, later, on whether they were kept'
+    ],
+    questions: [
+      'Is this a promise you can actually keep, as stated?',
+      'What would need to happen for both of you to agree this promise was kept?',
+      'If this promise gets broken, how will you handle that when it happens?'
+    ]
+  },
+  {
+    id: 'requests',
+    name: 'Requests',
+    definition: 'Asking another person to take a future action — the primary way people coordinate action with each other. Ontological coaching treats the request as a precise linguistic structure with identifiable components; a request missing one of them is far more likely to be misunderstood, ignored, or quietly resented rather than fulfilled.',
+    components: [
+      { name: 'Speaker and Listener', detail: 'Both parties are clearly identified, and the listener knows they are specifically being asked — not just informed or included in a general comment.' },
+      { name: 'A Specific Future Action', detail: 'The action requested is concrete and observable, not vague — "send me the draft" rather than "be more responsive."' },
+      { name: 'A Time Frame', detail: 'A clear "by when," not "soon" or "when you get a chance" — ambiguity here is one of the most common sources of broken requests.' },
+      { name: 'Conditions of Satisfaction', detail: 'The specific, observable criteria that define what fulfilling the request actually looks like — how both people will know it was done, and done well.' },
+      { name: 'Context and Mood', detail: 'The relationship and mood the request is made in — a request made with respect and sincerity lands differently than the same words delivered as a demand.' },
+      { name: 'A Response', detail: 'A request isn’t complete until the listener responds: accepting, declining, counter-offering, or committing to respond by a specific time. An unanswered request tends to curdle into an unspoken expectation — and later, resentment.' }
+    ],
+    breakdown: [
+      'A request is made so vaguely ("be more supportive") that the listener has no way to know what would satisfy it',
+      'No time frame is given, so the request drifts indefinitely with no clear point of failure or follow-up',
+      'The request is delivered as a demand, leaving no genuine room for the listener to decline',
+      'The request is never actually made out loud — it stays an unspoken expectation, and its absence becomes a complaint or resentment instead',
+      'The listener never actually responds, and both parties proceed on different assumptions about what was agreed'
+    ],
+    practice: [
+      'Help the client turn a vague complaint into a specific, actionable request — "what, exactly, would you want them to do?"',
+      'Insist on a real time frame, not "soon" — ask "by when, specifically?"',
+      'Have the client articulate their own conditions of satisfaction before making the request, so they can check whether it was actually met',
+      'Distinguish a request from a demand: does the listener have genuine room to say no?',
+      'Follow up on whether a request ever actually received a response — many breakdowns live in that missing step'
+    ],
+    questions: [
+      'What specifically are you asking them to do — and would they know exactly what that looks like?',
+      'By when, specifically, do you need this?',
+      'How will you both know this request has actually been fulfilled?',
+      'Is this a genuine request, or does it not really leave room for them to say no?',
+      'Did they ever actually respond to this request — yes, no, or a counter-offer?'
+    ],
+    note: 'This is the structural anatomy behind the unvoiced request at the root of Resentment — see the Resentment → Resignation pathway under Coaching Pathways.'
+  }
+];
