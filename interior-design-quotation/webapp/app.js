@@ -64,18 +64,34 @@
     if(item.inc) return 0;
     return (Number(item.qty)||0) * (Number(item.price)||0);
   }
+  function lineCost(item){
+    if(item.inc) return 0;
+    return (Number(item.qty)||0) * (Number(item.cost)||0);
+  }
+  function marginPct(item){
+    const price = Number(item.price)||0;
+    const cost = Number(item.cost)||0;
+    if(item.inc || price<=0) return 0;
+    return (price-cost)/price*100;
+  }
   function sectionSubtotal(name){
     return (state.sections[name]||[]).reduce((sum,it)=> sum + lineAmount(it), 0);
   }
+  function sectionCostTotal(name){
+    return (state.sections[name]||[]).reduce((sum,it)=> sum + lineCost(it), 0);
+  }
   function grandTotals(){
     const total = SECTIONS.reduce((s,name)=> s + sectionSubtotal(name), 0);
+    const totalCost = SECTIONS.reduce((s,name)=> s + sectionCostTotal(name), 0);
     const discountPct = Number(state.discountPct)||0;
     const discountAmt = -(total * discountPct/100);
     const net = total + discountAmt;
     const gstPct = Number(state.gstPct)||0;
     const gstAmt = net * gstPct/100;
     const grand = net + gstAmt;
-    return {total, discountAmt, net, gstAmt, grand};
+    const profit = net - totalCost;
+    const marginOfNet = net>0 ? (profit/net*100) : 0;
+    return {total, discountAmt, net, gstAmt, grand, totalCost, profit, marginOfNet};
   }
   function toast(msg, isError){
     const el = document.getElementById('toast');
@@ -123,6 +139,10 @@
     document.getElementById('sumNet').textContent = money(t.net);
     document.getElementById('sumGst').textContent = money(t.gstAmt);
     document.getElementById('sumGrand').textContent = money(t.grand);
+    document.getElementById('sumCost').textContent = money(t.totalCost);
+    document.getElementById('sumSellNet').textContent = money(t.net);
+    document.getElementById('sumProfit').textContent = money(t.profit);
+    document.getElementById('sumMargin').textContent = t.marginOfNet.toFixed(1) + '%';
     // section subtotal badges
     SECTIONS.forEach(name=>{
       const badge = document.querySelector(`.section-subtotal[data-section="${escapeHtml(name)}"]`);
@@ -182,11 +202,11 @@
     wrap.className = 'items';
     scroller.appendChild(wrap);
     if(!items.length){
-      wrap.innerHTML = `<tbody><tr class="empty-row"><td colspan="5">No items yet — click "+ Add Item" to pick from the priced catalog.</td></tr></tbody>`;
+      wrap.innerHTML = `<tbody><tr class="empty-row"><td colspan="8">No items yet — click "+ Add Item" to pick from the priced catalog.</td></tr></tbody>`;
       return scroller;
     }
     wrap.innerHTML = `<thead><tr>
-        <th style="width:34%">Description</th><th>Unit</th><th>Qty</th><th>Unit Price</th><th>Amount</th><th></th>
+        <th style="width:30%">Description</th><th>Unit</th><th>Qty</th><th>Cost</th><th>Sell Price</th><th>Margin</th><th>Amount</th><th></th>
       </tr></thead><tbody></tbody>`;
     const tbody = wrap.querySelector('tbody');
     items.forEach((item, i)=>{
@@ -246,6 +266,28 @@
       tdQty.appendChild(qtyInp);
       tr.appendChild(tdQty);
 
+      const tdCost = document.createElement('td');
+      tdCost.className = 'num';
+      if(item.inc){
+        tdCost.innerHTML = '<span class="inc-pill">INC.</span>';
+      }else{
+        const costInp = document.createElement('input');
+        costInp.className = 'qty';
+        costInp.type = 'number';
+        costInp.step = 'any';
+        costInp.min = '0';
+        costInp.value = round2(item.cost);
+        costInp.title = 'What you pay the contractor/supplier';
+        costInp.addEventListener('input', e=>{
+          item.cost = e.target.value;
+          saveState();
+          renderRowAmount(tr, item);
+          renderSummary();
+        });
+        tdCost.appendChild(costInp);
+      }
+      tr.appendChild(tdCost);
+
       const tdPrice = document.createElement('td');
       tdPrice.className = 'num';
       if(item.inc){
@@ -266,6 +308,11 @@
         tdPrice.appendChild(priceInp);
       }
       tr.appendChild(tdPrice);
+
+      const tdMargin = document.createElement('td');
+      tdMargin.className = 'num margin';
+      tdMargin.textContent = item.inc ? '—' : marginPct(item).toFixed(0) + '%';
+      tr.appendChild(tdMargin);
 
       const tdAmt = document.createElement('td');
       tdAmt.className = 'num amt';
@@ -291,6 +338,7 @@
   }
   function renderRowAmount(tr, item){
     tr.querySelector('td.amt').textContent = item.inc ? 'INC.' : money(lineAmount(item));
+    tr.querySelector('td.margin').textContent = item.inc ? '—' : marginPct(item).toFixed(0) + '%';
   }
   function round2(n){ return Math.round((Number(n)||0)*100)/100; }
   function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
@@ -331,7 +379,7 @@
       row.addEventListener('click', ()=>{
         state.sections[pickerSection].push({
           desc: entry.d, unit: entry.u, qty: 1,
-          price: round2(sellPrice(entry)), inc: !!entry.inc,
+          cost: entry.c || 0, price: round2(sellPrice(entry)), inc: !!entry.inc,
           note: entry.note || '', custom:false
         });
         saveState();
@@ -345,7 +393,7 @@
   pickerSearch.addEventListener('input', e => renderPickerList(e.target.value));
   document.getElementById('pickerClose').addEventListener('click', ()=> dlg.close());
   document.getElementById('btnAddCustom').addEventListener('click', ()=>{
-    state.sections[pickerSection].push({desc:'', unit:'', qty:1, price:0, inc:false, custom:true, note:''});
+    state.sections[pickerSection].push({desc:'', unit:'', qty:1, cost:0, price:0, inc:false, custom:true, note:''});
     saveState();
     dlg.close();
     renderSections();
@@ -432,44 +480,41 @@
     return (name||'Quotation').replace(/[\\\/\?\*\[\]:]/g,' ').slice(0,31) || 'Quotation';
   }
 
+  // Uses the plain, widely-compatible SheetJS "xlsx" build (no custom cell
+  // styling support on write in the free tier) so the exported file opens
+  // cleanly in every version of Excel/WPS, rather than a styling fork that
+  // may not be fully spec-compliant. Structure (merges, column widths, row
+  // heights, number formats) is still fully preserved.
   function buildWorkbook(){
-    const NAVY = "1F3864", GREY = "595959";
     const rows = [];
-    const styles = {}; // "r,c" -> style
     const merges = [];
     const rowHeights = {}; // r -> pt
+    const numFmts = {}; // "r,c" -> format string
 
     function push(a,b,c, opt){
       const r = rows.length;
       rows.push([a==null?'':a, b==null?'':b, c==null?'':c]);
-      if(opt && opt.style){
-        [0,1,2].forEach(ci=>{ if(opt.style[ci]) styles[r+','+ci] = opt.style[ci]; });
-      }
       if(opt && opt.merge) merges.push({s:{r:r,c:0}, e:{r:r,c:2}});
       if(opt && opt.height) rowHeights[r] = opt.height;
+      if(opt && opt.numFmt) numFmts[r+',2'] = opt.numFmt;
       return r;
     }
     function wrapHeight(text, charsPerLine){
       const lines = Math.max(1, Math.ceil(String(text||'').length / charsPerLine));
       return lines*13 + 6;
     }
-
-    const bold = (extra)=> Object.assign({font:{bold:true, name:'Calibri', sz:10}}, extra||{});
-    const normal = (extra)=> Object.assign({font:{name:'Calibri', sz:10}}, extra||{});
-    const thinBottom = {border:{bottom:{style:'thin', color:{rgb:'000000'}}}};
-    const wrapAlign = {alignment:{wrapText:true, vertical:'top'}};
-    const rightAlign = {alignment:{horizontal:'right', vertical:'center'}};
+    const MONEY_FMT = '#,##0.00';
 
     // Header block
-    push(state.company, '', '', {style:{0:{font:{bold:true, sz:16, color:{rgb:NAVY}}}}});
-    push(COMPANY.legalName, '', '', {style:{0:{font:{italic:true, sz:9, color:{rgb:GREY}}}}});
-    push(COMPANY.addressLine, '', '', {style:{0:{font:{sz:9, color:{rgb:GREY}}}}});
-    push(COMPANY.telFax, '', '', {style:{0:{font:{sz:9, color:{rgb:GREY}}}}});
-    push(COMPANY.website, '', '', {style:{0:{font:{sz:9, color:{rgb:GREY}}}}});
-    push(COMPANY.regGst, '', '', {style:{0:{font:{sz:9, color:{rgb:GREY}}}}});
-    push('Contract No:', state.contractNo, '', {style:{0:bold(), 1:normal(thinBottom)}});
-    push('Date:', state.date, '', {style:{0:bold(), 1:normal(thinBottom)}});
-    push('','','');
+    push(state.company);
+    push(COMPANY.legalName);
+    push(COMPANY.addressLine);
+    push(COMPANY.telFax);
+    push(COMPANY.website);
+    push(COMPANY.regGst);
+    push('Contract No:', state.contractNo);
+    push('Date:', state.date);
+    push('');
 
     const clientRows = [
       ['1st Owner:', state.owner1], ['NRIC No:', state.nric1],
@@ -479,95 +524,104 @@
       ['Premise Type:', state.premise], ['Lock No:', state.lock],
       ['Site Address:', state.address]
     ];
-    clientRows.forEach(([l,v])=> push(l, v, '', {style:{0:bold(), 1:normal(thinBottom)}}));
-    push('','','');
+    clientRows.forEach(([l,v])=> push(l, v));
+    push('');
 
-    // Doc title: plain bold black centered heading, no fill - matches the source contracts.
-    push(state.docTitle, '', '', {merge:true, style:{0:{font:{bold:true, sz:16, color:{rgb:'000000'}}, alignment:{horizontal:'center', vertical:'center'}}}, height:22});
+    push(state.docTitle, '', '', {merge:true, height:20});
     const intro = INTRO_LINE(state.company);
-    push(intro, '', '', {merge:true, style:{0:{font:{italic:true, sz:9}, alignment:{wrapText:true}}}, height: wrapHeight(intro, 90)});
+    push(intro, '', '', {merge:true, height: wrapHeight(intro, 90)});
+    push('');
 
-    const GREYFILL = {patternType:'solid', fgColor:{rgb:'D9D9D9'}};
-    push('S/N', 'Description', 'Amt in S($)', {style:{
-      0:Object.assign(bold({}),{fill:GREYFILL,alignment:{horizontal:'center',vertical:'center'},border:{top:{style:'thin',color:{rgb:'000000'}},bottom:{style:'thin',color:{rgb:'000000'}}}}),
-      1:Object.assign(bold({}),{fill:GREYFILL,alignment:{horizontal:'center',vertical:'center'},border:{top:{style:'thin',color:{rgb:'000000'}},bottom:{style:'thin',color:{rgb:'000000'}}}}),
-      2:Object.assign(bold({}),{fill:GREYFILL,alignment:{horizontal:'center',vertical:'center'},border:{top:{style:'thin',color:{rgb:'000000'}},bottom:{style:'thin',color:{rgb:'000000'}}}})
-    }});
+    push('S/N', 'Description', 'Amt in S($)');
 
     SECTIONS.forEach((name, si)=>{
       const items = state.sections[name]||[];
       if(!items.length) return;
-      push(String(si+1), name, '', {style:{
-        0:Object.assign(bold({font:{bold:true,sz:11}}),{fill:GREYFILL, alignment:{horizontal:'center'}}),
-        1:Object.assign(bold({font:{bold:true,sz:11,underline:true}}),{fill:GREYFILL}),
-        2:{fill:GREYFILL}
-      }});
+      push(String(si+1), name, '');
       items.forEach((item, ii)=>{
         const amountText = item.inc ? 'INC.' : lineAmount(item);
         const fullDesc = (!item.inc && item.qty) ? `${item.desc}  (Qty: ${item.qty}${item.unit? ' '+item.unit:''})` : item.desc;
         push(`${si+1}.${ii+1}`, fullDesc, amountText, {
-          style:{
-            0:normal({alignment:{horizontal:'center', vertical:'top'}}),
-            1:normal(wrapAlign),
-            2: item.inc ? normal({alignment:{horizontal:'center',vertical:'top'}}) : Object.assign(normal({alignment:{horizontal:'right',vertical:'top'}}),{numFmt:'#,##0.00'})
-          },
-          height: wrapHeight(fullDesc, 68)
+          height: wrapHeight(fullDesc, 68),
+          numFmt: item.inc ? null : MONEY_FMT
         });
       });
-      push('', 'SUB TOTAL:', sectionSubtotal(name), {style:{
-        1: bold({alignment:{horizontal:'right'}}),
-        2: Object.assign(bold({}), {numFmt:'#,##0.00', border:{top:{style:'thin',color:{rgb:'000000'}}, bottom:{style:'double',color:{rgb:'000000'}}}})
-      }});
-      push('','','');
+      push('', 'SUB TOTAL:', sectionSubtotal(name), {numFmt: MONEY_FMT});
+      push('');
     });
 
-    // Totals block: red bold text in a bordered box, matching the source contracts.
     const t = grandTotals();
-    const RED = 'FF0000';
-    const boxSide = {style:'thin', color:{rgb:'000000'}};
-    const totalStyle = (extra)=> Object.assign({font:{bold:true, name:'Calibri', sz:10, color:{rgb:RED}}, border:{top:boxSide,bottom:boxSide,left:boxSide,right:boxSide}}, extra||{});
-    push('', 'TOTAL:', t.total, {style:{1:totalStyle({alignment:{horizontal:'right'}}), 2:totalStyle({numFmt:'#,##0.00'})}});
-    push('', 'Discount:', t.discountAmt, {style:{1:totalStyle({alignment:{horizontal:'right'}}), 2:totalStyle({numFmt:'#,##0.00;-#,##0.00'})}});
-    push('', 'TOTAL:', t.net, {style:{1:totalStyle({alignment:{horizontal:'right'}}), 2:totalStyle({numFmt:'#,##0.00'})}});
-    push('', `${Number(state.gstPct)||0}% GST:`, t.gstAmt, {style:{1:totalStyle({alignment:{horizontal:'right'}}), 2:totalStyle({numFmt:'#,##0.00'})}});
-    push('', 'GRAND TOTAL:', t.grand, {style:{
-      1:totalStyle({font:{bold:true,sz:11,color:{rgb:RED}},alignment:{horizontal:'right'}}),
-      2:totalStyle({font:{bold:true,sz:11,color:{rgb:RED}},numFmt:'#,##0.00'})
-    }});
-    push('','','');
+    push('', 'TOTAL:', t.total, {numFmt: MONEY_FMT});
+    push('', 'Discount:', t.discountAmt, {numFmt: '#,##0.00;-#,##0.00'});
+    push('', 'TOTAL:', t.net, {numFmt: MONEY_FMT});
+    push('', `${Number(state.gstPct)||0}% GST:`, t.gstAmt, {numFmt: MONEY_FMT});
+    push('', 'GRAND TOTAL:', t.grand, {numFmt: MONEY_FMT});
+    push('');
 
-    push('TERMS AND CONDITION PLEASE REFER BELOW','','',{merge:true, style:{0:bold({font:{bold:true,sz:11}})}});
-    push('Payment Terms:','','',{style:{0:bold({font:{bold:true, underline:true}})}});
+    push('TERMS AND CONDITION PLEASE REFER BELOW', '', '', {merge:true});
+    push('Payment Terms:');
     state.paymentTerms.forEach(text=>{
-      push(text,'','',{merge:true, style:{0:normal(wrapAlign)}, height: wrapHeight(text,90)});
+      push(text, '', '', {merge:true, height: wrapHeight(text,90)});
     });
-    push('Note:','','',{style:{0:bold()}});
+    push('Note:');
     COMPANY.bankNote.forEach(text=>{
-      push('- '+text,'','',{merge:true, style:{0:normal(wrapAlign)}, height: wrapHeight(text,90)});
+      push('- '+text, '', '', {merge:true, height: wrapHeight(text,90)});
     });
-    push('','','');
+    push('');
 
-    push('TERMS AND CONDITIONS','','',{merge:true, style:{0:bold({font:{bold:true,sz:11}})}});
+    push('TERMS AND CONDITIONS', '', '', {merge:true});
     state.tnc.forEach((text,i)=>{
-      push(`${i+1}. ${text}`,'','',{merge:true, style:{0:normal(wrapAlign)}, height: wrapHeight(text,90)});
+      push(`${i+1}. ${text}`, '', '', {merge:true, height: wrapHeight(text,90)});
     });
-    push('','','');
-    push('Attended and Managed By:', '', 'Acknowledged & Confirmed by Owner / Date:', {style:{0:bold({font:{bold:true,sz:9}}), 2:bold({font:{bold:true,sz:9}})}});
+    push('');
+    push('Attended and Managed By:', '', 'Acknowledged & Confirmed by Owner / Date:');
 
     const ws = XLSX.utils.aoa_to_sheet(rows);
     ws['!cols'] = [{wch:9},{wch:82},{wch:16}];
     ws['!merges'] = merges;
     ws['!rows'] = [];
     Object.entries(rowHeights).forEach(([r,h])=>{ ws['!rows'][Number(r)] = {hpt:h}; });
-    Object.entries(styles).forEach(([k,st])=>{
+    Object.entries(numFmts).forEach(([k,fmt])=>{
       const [rr,cc] = k.split(',').map(Number);
       const ref = XLSX.utils.encode_cell({r:rr,c:cc});
-      if(!ws[ref]) ws[ref] = {t:'s', v:''};
-      ws[ref].s = st;
+      if(ws[ref]) ws[ref].z = fmt;
     });
 
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, safeSheetName(state.docTitle));
+
+    // Second sheet: internal cost/margin breakdown, never shown to the client.
+    const costRows = [['S/N','Description','Unit','Qty','Cost/Unit','Sell/Unit','Cost Amt','Sell Amt','Profit','Margin %']];
+    SECTIONS.forEach((name, si)=>{
+      const items = state.sections[name]||[];
+      if(!items.length) return;
+      costRows.push([String(si+1), name, '', '', '', '', '', '', '', '']);
+      items.forEach((item, ii)=>{
+        const amt = lineAmount(item);
+        const costAmt = lineCost(item);
+        costRows.push([
+          `${si+1}.${ii+1}`, item.desc, item.unit, Number(item.qty)||0,
+          item.inc ? 0 : round2(item.cost), item.inc ? 0 : round2(item.price),
+          round2(costAmt), round2(amt), round2(amt-costAmt), item.inc ? 0 : Math.round(marginPct(item))
+        ]);
+      });
+      const secCost = sectionCostTotal(name), secSell = sectionSubtotal(name);
+      costRows.push(['', 'SUBTOTAL', '', '', '', '', round2(secCost), round2(secSell), round2(secSell-secCost), '']);
+      costRows.push([]);
+    });
+    costRows.push(['', 'TOTAL (before discount/GST)', '', '', '', '', round2(t.totalCost), round2(t.total), round2(t.total-t.totalCost), t.total>0 ? Math.round((t.total-t.totalCost)/t.total*100) : 0]);
+    costRows.push(['', 'After discount (excl. GST)', '', '', '', '', '', round2(t.net), round2(t.profit), Math.round(t.marginOfNet)]);
+
+    const ws2 = XLSX.utils.aoa_to_sheet(costRows);
+    ws2['!cols'] = [{wch:7},{wch:52},{wch:8},{wch:7},{wch:10},{wch:10},{wch:11},{wch:11},{wch:11},{wch:9}];
+    for(let r=1;r<costRows.length;r++){
+      for(const c of [4,5,6,7,8]){
+        const ref = XLSX.utils.encode_cell({r,c});
+        if(ws2[ref] && typeof ws2[ref].v === 'number') ws2[ref].z = MONEY_FMT;
+      }
+    }
+    XLSX.utils.book_append_sheet(wb, ws2, 'Costing (Internal)');
+
     return wb;
   }
 

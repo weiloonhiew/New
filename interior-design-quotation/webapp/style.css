@@ -228,7 +228,7 @@ button svg{ vertical-align:-2px; margin-right:5px; }
 .section-card.open .section-body{ display:block; }
 
 .table-scroll{ overflow-x:auto; }
-table.items{ width:100%; min-width:560px; border-collapse:collapse; font-size:13.5px; margin-top:6px;}
+table.items{ width:100%; min-width:820px; border-collapse:collapse; font-size:13.5px; margin-top:6px;}
 table.items th{
   text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:.04em;
   color:var(--text-faint); font-weight:600; padding:6px 8px; border-bottom:1px solid var(--border);
@@ -243,6 +243,7 @@ table.items td.num input.qty{ width:80px; }
 table.items input.custom-field{ padding:5px 6px; border-radius:6px; border:1px solid var(--border-strong); background:var(--surface-2); color:var(--text); width:100%; }
 table.items td.num{ text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
 table.items td.unit{ color:var(--text-dim); white-space:nowrap; }
+table.items td.margin{ color:var(--good); font-weight:600; }
 .inc-pill{ display:inline-block; font-size:11px; font-weight:700; color:var(--good); background:rgba(61,122,79,.12); padding:2px 7px; border-radius:20px; }
 
 .empty-row td{ color:var(--text-faint); font-style:italic; padding:14px 8px; }

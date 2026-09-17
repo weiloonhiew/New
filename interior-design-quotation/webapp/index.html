@@ -82,6 +82,16 @@
             <div class="summary-row grand"><span class="summary-label">Grand Total</span><span class="num" id="sumGrand">S$0.00</span></div>
           </div>
         </div>
+
+        <div class="card">
+          <div class="card-head"><h3>Profitability (internal)</h3></div>
+          <div class="card-body" id="profitBody">
+            <div class="summary-row"><span class="summary-label">Total cost</span><span class="num" id="sumCost">S$0.00</span></div>
+            <div class="summary-row"><span class="summary-label">Selling (after discount)</span><span class="num" id="sumSellNet">S$0.00</span></div>
+            <div class="summary-row total"><span class="summary-label">Gross profit</span><span class="num" id="sumProfit">S$0.00</span></div>
+            <div class="summary-row grand" id="marginRow"><span class="summary-label">Margin</span><span class="num" id="sumMargin">0.0%</span></div>
+          </div>
+        </div>
       </aside>
 
       <main>
@@ -139,6 +149,6 @@
 
 <div class="toast" id="toast"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="data.js"></script>
 <script src="app.js"></script>
