@@ -433,7 +433,7 @@
   }
 
   function buildWorkbook(){
-    const NAVY = "1F3864", GOLD = "A9702F", LIGHT = "F1E2CC", GREY = "595959", WHITE = "FFFFFF";
+    const NAVY = "1F3864", GREY = "595959";
     const rows = [];
     const styles = {}; // "r,c" -> style
     const merges = [];
@@ -474,7 +474,7 @@
     const clientRows = [
       ['1st Owner:', state.owner1], ['NRIC No:', state.nric1],
       ['2nd Owner:', state.owner2], ['NRIC No:', state.nric2],
-      ['Contact No (1st):', state.contact1], ['Contact No (2nd):', state.contact2],
+      ['Contact No: (1st Owner)', state.contact1], ['Contact No: (2nd Owner)', state.contact2],
       ['E-mail:', state.email],
       ['Premise Type:', state.premise], ['Lock No:', state.lock],
       ['Site Address:', state.address]
@@ -482,23 +482,25 @@
     clientRows.forEach(([l,v])=> push(l, v, '', {style:{0:bold(), 1:normal(thinBottom)}}));
     push('','','');
 
-    push(state.docTitle, '', '', {merge:true, style:{0:Object.assign(bold({font:{bold:true, sz:15, color:{rgb:WHITE}}}), {fill:{patternType:'solid', fgColor:{rgb:NAVY}}, alignment:{horizontal:'center', vertical:'center'}})}, height:22});
+    // Doc title: plain bold black centered heading, no fill - matches the source contracts.
+    push(state.docTitle, '', '', {merge:true, style:{0:{font:{bold:true, sz:16, color:{rgb:'000000'}}, alignment:{horizontal:'center', vertical:'center'}}}, height:22});
     const intro = INTRO_LINE(state.company);
     push(intro, '', '', {merge:true, style:{0:{font:{italic:true, sz:9}, alignment:{wrapText:true}}}, height: wrapHeight(intro, 90)});
 
+    const GREYFILL = {patternType:'solid', fgColor:{rgb:'D9D9D9'}};
     push('S/N', 'Description', 'Amt in S($)', {style:{
-      0:Object.assign(bold({font:{bold:true,color:{rgb:WHITE},sz:10}}),{fill:{patternType:'solid',fgColor:{rgb:NAVY}},alignment:{horizontal:'center',vertical:'center'}}),
-      1:Object.assign(bold({font:{bold:true,color:{rgb:WHITE},sz:10}}),{fill:{patternType:'solid',fgColor:{rgb:NAVY}},alignment:{horizontal:'left',vertical:'center'}}),
-      2:Object.assign(bold({font:{bold:true,color:{rgb:WHITE},sz:10}}),{fill:{patternType:'solid',fgColor:{rgb:NAVY}},alignment:{horizontal:'center',vertical:'center'}})
+      0:Object.assign(bold({}),{fill:GREYFILL,alignment:{horizontal:'center',vertical:'center'},border:{top:{style:'thin',color:{rgb:'000000'}},bottom:{style:'thin',color:{rgb:'000000'}}}}),
+      1:Object.assign(bold({}),{fill:GREYFILL,alignment:{horizontal:'center',vertical:'center'},border:{top:{style:'thin',color:{rgb:'000000'}},bottom:{style:'thin',color:{rgb:'000000'}}}}),
+      2:Object.assign(bold({}),{fill:GREYFILL,alignment:{horizontal:'center',vertical:'center'},border:{top:{style:'thin',color:{rgb:'000000'}},bottom:{style:'thin',color:{rgb:'000000'}}}})
     }});
 
     SECTIONS.forEach((name, si)=>{
       const items = state.sections[name]||[];
       if(!items.length) return;
       push(String(si+1), name, '', {style:{
-        0:Object.assign(bold({font:{bold:true,color:{rgb:WHITE}}}),{fill:{patternType:'solid',fgColor:{rgb:GOLD}}, alignment:{horizontal:'center'}}),
-        1:Object.assign(bold({font:{bold:true,color:{rgb:WHITE}}}),{fill:{patternType:'solid',fgColor:{rgb:GOLD}}}),
-        2:{fill:{patternType:'solid',fgColor:{rgb:GOLD}}}
+        0:Object.assign(bold({font:{bold:true,sz:11}}),{fill:GREYFILL, alignment:{horizontal:'center'}}),
+        1:Object.assign(bold({font:{bold:true,sz:11,underline:true}}),{fill:GREYFILL}),
+        2:{fill:GREYFILL}
       }});
       items.forEach((item, ii)=>{
         const amountText = item.inc ? 'INC.' : lineAmount(item);
@@ -519,14 +521,18 @@
       push('','','');
     });
 
+    // Totals block: red bold text in a bordered box, matching the source contracts.
     const t = grandTotals();
-    push('', 'TOTAL:', t.total, {style:{1:bold({alignment:{horizontal:'right'}}), 2:Object.assign(bold({}),{numFmt:'#,##0.00'})}});
-    push('', 'Discount:', t.discountAmt, {style:{1:bold({alignment:{horizontal:'right'}}), 2:Object.assign(bold({}),{numFmt:'#,##0.00;-#,##0.00'})}});
-    push('', 'TOTAL:', t.net, {style:{1:bold({alignment:{horizontal:'right'}}), 2:Object.assign(bold({}),{numFmt:'#,##0.00'})}});
-    push('', `${Number(state.gstPct)||0}% GST:`, t.gstAmt, {style:{1:bold({alignment:{horizontal:'right'}}), 2:Object.assign(bold({}),{numFmt:'#,##0.00'})}});
+    const RED = 'FF0000';
+    const boxSide = {style:'thin', color:{rgb:'000000'}};
+    const totalStyle = (extra)=> Object.assign({font:{bold:true, name:'Calibri', sz:10, color:{rgb:RED}}, border:{top:boxSide,bottom:boxSide,left:boxSide,right:boxSide}}, extra||{});
+    push('', 'TOTAL:', t.total, {style:{1:totalStyle({alignment:{horizontal:'right'}}), 2:totalStyle({numFmt:'#,##0.00'})}});
+    push('', 'Discount:', t.discountAmt, {style:{1:totalStyle({alignment:{horizontal:'right'}}), 2:totalStyle({numFmt:'#,##0.00;-#,##0.00'})}});
+    push('', 'TOTAL:', t.net, {style:{1:totalStyle({alignment:{horizontal:'right'}}), 2:totalStyle({numFmt:'#,##0.00'})}});
+    push('', `${Number(state.gstPct)||0}% GST:`, t.gstAmt, {style:{1:totalStyle({alignment:{horizontal:'right'}}), 2:totalStyle({numFmt:'#,##0.00'})}});
     push('', 'GRAND TOTAL:', t.grand, {style:{
-      1:Object.assign(bold({font:{bold:true,sz:11}}),{alignment:{horizontal:'right'},fill:{patternType:'solid',fgColor:{rgb:LIGHT}}}),
-      2:Object.assign(bold({font:{bold:true,sz:11}}),{numFmt:'#,##0.00',fill:{patternType:'solid',fgColor:{rgb:LIGHT}}})
+      1:totalStyle({font:{bold:true,sz:11,color:{rgb:RED}},alignment:{horizontal:'right'}}),
+      2:totalStyle({font:{bold:true,sz:11,color:{rgb:RED}},numFmt:'#,##0.00'})
     }});
     push('','','');
 

@@ -33,7 +33,7 @@ const COMPANY = {
   ]
 };
 
-const DOC_TITLE_DEFAULT = "Renovation Contract";
+const DOC_TITLE_DEFAULT = "Renovation Contract_V7";
 
 const INTRO_LINE = (companyName) =>
   `We Confirm our renovation order to be undertaken by ${companyName.toUpperCase()} as per particular listed hereunder:-`;
